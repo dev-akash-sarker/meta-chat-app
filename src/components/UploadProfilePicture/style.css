@@ -1,0 +1,115 @@
+.uploadbox {
+  width: 100%;
+  background-color: rgb(229, 227, 227);
+  height: 370px;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+}
+
+.upload {
+  text-align: center;
+  font-family: "Open sans", sans-serif;
+  font-weight: 600;
+}
+
+.upload-icon {
+  width: 80px;
+  height: 80px;
+  background-color: #fff;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  margin-bottom: 15px;
+}
+
+.upload svg {
+  width: 20px;
+  height: 20px;
+}
+
+.crop_image_box {
+  width: 520px !important;
+  background-color: #f0f0f0;
+  height: 73vh;
+  cursor: pointer;
+  position: absolute;
+  top: -130px;
+  left: -10px;
+  z-index: 999;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+}
+
+.upload_header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding-top: 20px;
+  padding-bottom: 30px;
+  border-bottom: 1px solid #bebdbd;
+}
+.upload_header h4 {
+  text-align: center;
+  font-family: "Open sans", sans-serif;
+  font-weight: 600;
+  width: 92%;
+}
+
+.upload_header .close {
+  width: 30px;
+  height: 30px;
+  background: #fff;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.crop-images {
+  overflow: hidden;
+  margin-top: 25px;
+}
+
+.upload-btn {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.preview-photo {
+  width: 80px;
+  height: 80px;
+  overflow: hidden;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+  margin: 0 auto;
+  margin-top: 12px;
+}
+
+.preview-photo .img-preview {
+  width: 100%;
+  height: 100%;
+}

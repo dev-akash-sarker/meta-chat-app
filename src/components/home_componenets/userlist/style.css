@@ -1,0 +1,107 @@
+:root {
+  --scrollbarBG: #cfd8dc;
+  --thumbBG: #90a4ae;
+}
+
+.userlist {
+  width: 100%;
+  height: 365px;
+  background-color: #fff;
+  margin-top: 15px;
+  border-radius: 20px;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  -ms-border-radius: 20px;
+  -o-border-radius: 20px;
+  padding: 20px 15px;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+.userlist::-webkit-scrollbar {
+  width: 11px;
+}
+.userlist {
+  scrollbar-width: thin;
+  scrollbar-color: var(--thumbBG) var(--scrollbarBG);
+}
+.userlist::-webkit-scrollbar-track {
+  background: var(--scrollbarBG);
+}
+.userlist::-webkit-scrollbar-thumb {
+  background-color: var(--thumbBG);
+  border-radius: 6px;
+  border: 3px solid var(--scrollbarBG);
+}
+
+.userlist_header h4 {
+  font-family: "poppins", sans-serif;
+  font-weight: 600;
+  font-size: 20px;
+  color: #000;
+}
+
+.userlist-item-wrapper {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #e7e7e7;
+  padding-bottom: 15px;
+}
+
+.userlist-item-wrapper:last-child {
+  border-bottom: none;
+}
+
+.userlist-images {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+  background-color: red;
+  margin-top: 15px;
+}
+
+.userlist-name {
+  width: 43%;
+}
+
+.userlist-name h5 {
+  font-family: "poppins", sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  color: #000;
+  margin-top: 20px;
+}
+.userlist-name h6 {
+  font-family: "poppins", sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  color: #9f9696;
+  margin-top: 10px;
+}
+
+.user-list-btn {
+  width: 35%;
+  margin-top: 28px;
+  text-align: right;
+}
+
+.user-list-btn button {
+  border: none;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 5px;
+  background-color: #5f35f5;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  color: #fff;
+  font-family: "poppins", sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  margin: 2px 0;
+}

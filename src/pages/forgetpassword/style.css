@@ -1,0 +1,31 @@
+.main_forget_wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.inner_forgot_box {
+  width: 400px;
+  padding: 20px 30px;
+  background-color: rgba(213, 183, 183, 0.184);
+  border-radius: 15px;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  -ms-border-radius: 15px;
+  -o-border-radius: 15px;
+}
+
+.forget_header h4 {
+  font-family: "Open sans", sans-serif;
+  font-weight: 500;
+  font-size: 24px;
+}
+
+.form-style {
+  width: 100% !important;
+}
+
+.reset_button {
+  margin: 10px 0 !important;
+}

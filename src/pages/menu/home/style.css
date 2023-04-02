@@ -1,0 +1,10 @@
+.home_pages {
+  box-sizing: border-box !important;
+  justify-content: space-between !important;
+  margin-top: 20px;
+  background-color: #f9f9f9;
+}
+
+.home_items {
+  padding: 0 15px !important;
+}

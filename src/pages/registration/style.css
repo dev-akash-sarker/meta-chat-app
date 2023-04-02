@@ -1,0 +1,63 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+.register-center {
+  align-items: center;
+  height: 100vh;
+}
+
+.form-header h3 {
+  font-family: "Nunito", sans-serif;
+  font-weight: 700;
+  font-size: 34.4px;
+  color: #11175d;
+}
+.form-header p {
+  font-family: "Nunito", sans-serif;
+  font-weight: 500;
+  font-size: 20.64px;
+  color: #000;
+  opacity: 0.5;
+  margin-bottom: 20px;
+}
+
+.form-style {
+  width: 70% !important;
+}
+
+.submitBtn {
+  background-color: #5f35f5 !important;
+  width: 70%;
+  padding: 10px 0 !important;
+  margin-top: 20px !important;
+  border-radius: 50px !important;
+  -webkit-border-radius: 50px !important;
+  -moz-border-radius: 50px !important;
+  -ms-border-radius: 50px !important;
+  -o-border-radius: 50px !important;
+}
+
+.registration-images img {
+  width: 100% !important;
+}
+
+.errorsRe {
+  width: 64% !important;
+}
+
+.eyes-wrapper {
+  position: relative;
+}
+
+.eyes {
+  position: absolute;
+  top: 34%;
+  left: 65%;
+  transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+  -moz-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  -o-transform: translateX(-50%);
+  cursor: pointer;
+}

@@ -1,0 +1,32 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+ul,
+ol {
+  list-style-type: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+.accounts p {
+  width: 70% !important;
+  text-align: center !important;
+  margin-top: 20px !important;
+  font-family: "Open sans", sans-serif !important;
+  font-weight: 700;
+  font-size: 13.34px;
+  color: "#03014C" !important;
+}
+
+body {
+  background-color: #f9f9f9;
+}
+
+/* .accounts p a {
+  color: "#EA6C00" !important;
+  text-decoration: none !important;
+} */
