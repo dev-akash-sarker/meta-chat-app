@@ -48,9 +48,7 @@ const Friends = () => {
               <h6>Dinner?</h6>
             </div>
             <div className="friends-list-btn">
-              <button type="button" onClick={() => handleCancle(item)}>
-                Block
-              </button>
+              <button type="button">Block</button>
             </div>
           </div>
         ))}
