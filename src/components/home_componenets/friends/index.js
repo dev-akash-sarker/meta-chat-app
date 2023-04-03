@@ -49,7 +49,6 @@ const Friends = () => {
             </div>
             <div className="friends-list-btn">
               <button type="button">Block</button>
-              <h2>Hello World</h2>
             </div>
           </div>
         ))}
