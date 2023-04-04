@@ -27,7 +27,7 @@ const Friends = () => {
       });
       setMyfriend(friendArr);
     });
-  }, []);
+  }, [db, user.uid]);
 
   return (
     <>

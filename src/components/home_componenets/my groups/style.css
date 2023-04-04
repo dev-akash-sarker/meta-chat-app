@@ -34,6 +34,16 @@
   border: 3px solid var(--scrollbarBG);
 }
 
+.mygroups_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.creategroups {
+  text-transform: capitalize !important;
+}
+
 .mygroups_header h4 {
   font-family: "poppins", sans-serif;
   font-weight: 600;
@@ -108,4 +118,16 @@
   font-family: "poppins", sans-serif;
   font-weight: 600;
   font-size: 14px;
+}
+
+.diologeGroupe {
+  width: 350px;
+  padding: 20px 25px;
+}
+
+.diologeGroupe .title {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 20px;
 }
