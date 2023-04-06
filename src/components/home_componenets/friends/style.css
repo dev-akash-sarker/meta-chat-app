@@ -86,7 +86,7 @@
 
 .friends-list-btn {
   width: 25%;
-  margin-top: 34px;
+  margin-top: 4px;
   font-family: "poppins", sans-serif;
   font-weight: 500;
   font-size: 12px;
@@ -98,12 +98,31 @@
   border: none;
   cursor: pointer;
   padding: 8px 0;
+  margin-top: 8px;
   border-radius: 5px;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   -ms-border-radius: 5px;
   -o-border-radius: 5px;
-  background-color: #5f35f5;
+  background-color: #1814ff;
+  color: #fff;
+  font-family: "poppins", sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.friends-list-btn button.block-btn {
+  width: 100%;
+  border: none;
+  cursor: pointer;
+  padding: 8px 0;
+  margin-top: 8px;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  background-color: rgb(255, 0, 0);
   color: #fff;
   font-family: "poppins", sans-serif;
   font-weight: 600;

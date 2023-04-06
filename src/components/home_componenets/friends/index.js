@@ -1,6 +1,13 @@
 import React, { useState } from "react";
 import "./style.css";
-import { getDatabase, ref, onValue } from "firebase/database";
+import {
+  getDatabase,
+  ref,
+  onValue,
+  remove,
+  set,
+  push,
+} from "firebase/database";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 
@@ -13,13 +20,6 @@ const Friends = () => {
     onValue(starCountRef, (snapshot) => {
       const friendArr = [];
       snapshot.forEach((item) => {
-        // if (user.uid !== item.val().receiverid) {
-        //   friendArr.push({ ...item.val(), fid: item.key });
-        //   console.log("hoise");
-        // } else {
-        //   console.log("hoynai");
-        // }
-
         if (user.uid === item.receiverid) {
           friendArr.push({ ...item.val(), fid: item.key });
         }
@@ -28,6 +28,35 @@ const Friends = () => {
       setMyfriend(friendArr);
     });
   }, [db, user.uid]);
+
+  const handleBlock = (data) => {
+    console.log("ore batpar");
+    if (user.uid === data.senderid) {
+      set(push(ref(db, "block")), {
+        blockedPerson: data.receivername,
+        blockedId: data.receiverid,
+        blockedBy: data.sendername,
+        blockedById: data.senderid,
+      }).then(() => {
+        remove(ref(db, "friends/" + data.fid));
+      });
+    }
+
+    if (user.uid === data.receiverid) {
+      set(push(ref(db, "block")), {
+        blockedPerson: data.sendername,
+        blockedId: data.senderid,
+        blockedBy: data.receivername,
+        blockedById: data.receiverid,
+      }).then(() => {
+        remove(ref(db, "friends/" + data.fid));
+      });
+    }
+  };
+
+  const handleUnfriend = (data) => {
+    remove(ref(db, "friends/" + data.fid));
+  };
 
   return (
     <>
@@ -48,7 +77,16 @@ const Friends = () => {
               <h6>Dinner?</h6>
             </div>
             <div className="friends-list-btn">
-              <button type="button">Block</button>
+              <button
+                type="button"
+                className="block-btn"
+                onClick={() => handleBlock(item)}
+              >
+                Block
+              </button>
+              <button onClick={() => handleUnfriend(item)} type="button">
+                Unfriend
+              </button>
             </div>
           </div>
         ))}

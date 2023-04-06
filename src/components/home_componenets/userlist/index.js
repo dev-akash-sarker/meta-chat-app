@@ -13,6 +13,8 @@ const Userlist = () => {
   const [userme, setUserme] = useState([]);
   const [frindreq, setFriendreq] = useState([]);
   const [canclereq, setCanclereq] = useState([]);
+  const [friendlist, setFriendlist] = useState([]);
+  const [blocklist, setBlocklist] = useState([]);
   const user = useSelector((user) => user.login.loggedIn);
   const db = getDatabase();
   useEffect(() => {
@@ -62,12 +64,32 @@ const Userlist = () => {
       } else {
         console.log("hoy nai");
       }
+      return "";
     });
   };
 
-  // useEffect(() => {
-  //   handleCancle();
-  // }, [hand]);
+  // as friends
+  useEffect(() => {
+    const starCountRef = ref(db, "friends/");
+    onValue(starCountRef, (snapshot) => {
+      let friendArr = [];
+      snapshot.forEach((item) => {
+        friendArr.push(item.val().receiverid + item.val().senderid);
+      });
+      setFriendlist(friendArr);
+    });
+  }, [db]);
+
+  useEffect(() => {
+    const starCountRef = ref(db, "block/");
+    onValue(starCountRef, (snapshot) => {
+      let blockArr = [];
+      snapshot.forEach((item) => {
+        blockArr.push(item.val().blockedId + item.val().blockedById);
+      });
+      setBlocklist(blockArr);
+    });
+  }, [db]);
 
   return (
     <>
@@ -80,29 +102,35 @@ const Userlist = () => {
             <div className="userlist-images"></div>
             <div className="userlist-name">
               <h5>{item.username}</h5>
+              {console.log(item.id, "jjjjjj")}
               <h6>Today, 9:58pm</h6>
             </div>
             {console.log("khamu", item)}
             <div className="user-list-btn">
-              {frindreq.includes(item.id + user.uid) ||
-              frindreq.includes(user.uid + item.id) ? (
+              {friendlist.includes(item.id + user.uid) ||
+              friendlist.includes(user.uid + item.id) ? (
+                <button type="button" disabled>
+                  friends
+                </button>
+              ) : blocklist.includes(item.id + user.uid) ? (
+                <div>
+                  <button type="button" onClick={() => handleCancle(item)}>
+                    Blocked
+                  </button>
+                </div>
+              ) : frindreq.includes(item.id + user.uid) ||
+                frindreq.includes(user.uid + item.id) ? (
                 <div>
                   <button type="button" onClick={() => handleCancle(item)}>
                     Cancle Request
                   </button>
                 </div>
-              ) : frindreq.includes(item.id + user.uid) ||
-                frindreq.includes(user.uid + item.id) ? (
-                <button type="button" onClick={() => handleRequest(item)}>
-                  Friend
-                </button>
               ) : (
                 <button type="button" onClick={() => handleRequest(item)}>
                   Add Friend
                 </button>
               )}
             </div>
-            {/*  */}
           </div>
         ))}
       </div>
