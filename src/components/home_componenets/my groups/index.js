@@ -9,7 +9,7 @@ import { AiOutlineCloseCircle } from "react-icons/ai";
 const Mygroup = () => {
   const [grpname, setGrpname] = useState("");
   const [tgname, setTgname] = useState("");
-  const [groupDetail, setGroupDetail] = useState([]);
+  const [grouplist, setGrouplist] = useState([]);
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -32,14 +32,14 @@ const Mygroup = () => {
   };
 
   useEffect(() => {
-    const starCountRef = ref(db, "groups/");
+    const starCountRef = ref(db, "grouplist/");
     onValue(starCountRef, (snapshot) => {
       // console.log(snapshot.val(), "ami ase");
       const groupArr = [];
       snapshot.forEach((groupitem) => {
         groupArr.push(groupitem.val());
       });
-      setGroupDetail(groupArr);
+      setGrouplist(groupArr);
     });
   }, [db]);
 
@@ -112,14 +112,20 @@ const Mygroup = () => {
             </DialogActions> */}
           </Dialog>
         </div>
-        {groupDetail.map((item, i) => (
+        {grouplist.map((item, i) => (
           <div key={i} className="friends-item-wrapper">
-            {console.log(item, "ami ami")}
-            <div className="friends-images"></div>
-            <div className="friends-name">
-              <h5>{item.groupname}</h5>
-              <h6>{item.tagname}</h6>
-            </div>
+            {item.adminid === user.uid ? (
+              <>
+                <div className="friends-images"></div>
+                <div className="friends-name">
+                  <h4>Admin Name:{item.adminname}</h4>
+                  <h5>{item.groupname}</h5>
+                  <h6>{item.tagname}</h6>
+                </div>
+              </>
+            ) : (
+              ""
+            )}
           </div>
         ))}
       </div>

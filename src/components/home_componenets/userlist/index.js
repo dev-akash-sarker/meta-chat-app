@@ -102,10 +102,10 @@ const Userlist = () => {
             <div className="userlist-images"></div>
             <div className="userlist-name">
               <h5>{item.username}</h5>
-              {console.log(item.id, "jjjjjj")}
+
               <h6>Today, 9:58pm</h6>
             </div>
-            {console.log("khamu", item)}
+
             <div className="user-list-btn">
               {friendlist.includes(item.id + user.uid) ||
               friendlist.includes(user.uid + item.id) ? (

@@ -74,6 +74,22 @@
   margin-top: 15px;
 }
 
+.friends-name h4 {
+  font-family: "poppins", sans-serif;
+  margin-top: 22px;
+  font-weight: 500;
+}
+
+.friends-name h5 {
+  font-family: "poppins", sans-serif;
+  margin-top: 0px;
+}
+
+.friends-name h6 {
+  font-family: "poppins", sans-serif;
+  margin-top: -2px;
+}
+
 .mygroups-name {
   width: 60%;
   padding-left: 10px;

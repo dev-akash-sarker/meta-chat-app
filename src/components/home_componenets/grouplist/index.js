@@ -1,26 +1,119 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Mygrouplistdata } from "./mygroupdata";
 import "./style.css";
+import { RiAddLine } from "react-icons/ri";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import { TextField } from "@mui/material";
+import { getDatabase, ref, set, onValue, push } from "firebase/database";
+import { useSelector } from "react-redux";
 
 const Grouplist = () => {
+  const [open, setOpen] = React.useState(false);
+  const [groupname, setGroupname] = useState("");
+  const [tagname, setTagname] = useState("");
+  const [grouplist, setGrouplist] = useState([]);
+  const user = useSelector((user) => user.login.loggedIn);
+  const db = getDatabase();
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleCreateGroupList = () => {
+    set(push(ref(db, "grouplist/")), {
+      adminname: user.displayName,
+      adminid: user.uid,
+      groupname: groupname,
+      tagname: tagname,
+    });
+    setTimeout(() => {
+      setOpen(false);
+      console.log("hoises");
+    }, 500);
+  };
+
+  useEffect(() => {
+    const starCountRef = ref(db, "grouplist/");
+    onValue(starCountRef, (snapshot) => {
+      const groupArr = [];
+      snapshot.forEach((item) => {
+        groupArr.push({ ...item.val(), keyId: item.key });
+      });
+      setGrouplist(groupArr);
+    });
+  }, []);
+
+  console.log("mamma", grouplist);
+
   return (
     <>
       <div className="grouplist" id="style-2">
         <div className="grouplist_header">
           <h4>Group Lists</h4>
+          <button className="grouplist_new_btn" onClick={handleClickOpen}>
+            Create New Groups <RiAddLine className="plus-ico" />
+          </button>
+          <Dialog
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <div className="create-new-group-style">
+              <h3 style={{ marginBottom: "10px" }}>Create Your New Group</h3>
+              <label>Group Name</label>
+              <br />
+              <TextField
+                type="text"
+                placeholder="your group name"
+                margin="dense"
+                fullWidth
+                onChange={(e) => setGroupname(e.target.value)}
+              />
+              <br />
+              <label>Tag Name</label>
+              <br />
+              <TextField
+                type="text"
+                placeholder="your tag name"
+                margin="dense"
+                fullWidth
+                onChange={(e) => setTagname(e.target.value)}
+              />
+              <div style={{ textAlign: "center" }}>
+                <Button
+                  variant="contained"
+                  style={{ marginTop: "10px" }}
+                  fullWidth
+                  onClick={handleCreateGroupList}
+                >
+                  Create Group
+                </Button>
+              </div>
+            </div>
+          </Dialog>
         </div>
-        {Mygrouplistdata.map((item, i) => (
-          <div className="group-item-wrapper" key={i}>
-            <div className="group-images">
-              <img src={item.groupImages} alt="" />
-            </div>
-            <div className="group-name">
-              <h5>{item.groupName}</h5>
-              <h6>{item.groupMessage}</h6>
-            </div>
-            <div className="group-list-btn">
-              <button type="button">Join</button>
-            </div>
+
+        {grouplist.map((item, i) => (
+          <div key={i} className="group-item-wrapper">
+            {item.adminid !== user.uid ? (
+              <>
+                <div className="group-images"></div>
+                <div className="group-name">
+                  <h5>{item.groupname}</h5>
+                  <h6>{item.tagname}</h6>
+                </div>
+                <div className="group-list-btn">
+                  <button type="button">Join</button>
+                </div>{" "}
+              </>
+            ) : (
+              ""
+            )}
           </div>
         ))}
       </div>
