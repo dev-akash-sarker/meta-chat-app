@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Mygrouplistdata } from "./mygroupdata";
 import "./style.css";
 import { RiAddLine } from "react-icons/ri";
 import Button from "@mui/material/Button";
@@ -45,7 +44,7 @@ const Grouplist = () => {
       });
       setGrouplist(groupArr);
     });
-  }, []);
+  }, [db]);
 
   console.log("mamma", grouplist);
 
