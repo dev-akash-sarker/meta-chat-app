@@ -147,3 +147,12 @@
   width: 100%;
   margin-bottom: 20px;
 }
+
+.friends-images {
+  overflow: hidden;
+}
+.friends-images img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

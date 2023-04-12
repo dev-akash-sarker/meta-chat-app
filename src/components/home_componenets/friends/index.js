@@ -30,7 +30,6 @@ const Friends = () => {
   }, [db, user.uid]);
 
   const handleBlock = (data) => {
-    console.log("ore batpar");
     if (user.uid === data.senderid) {
       set(push(ref(db, "block")), {
         blockedPerson: data.receivername,
@@ -73,7 +72,6 @@ const Friends = () => {
                   ? item.sendername
                   : item.receivername}
               </h5>
-              <h6>{console.log(item)}</h6>
               <h6>Dinner?</h6>
             </div>
             <div className="friends-list-btn">

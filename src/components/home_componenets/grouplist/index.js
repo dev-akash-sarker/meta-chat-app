@@ -108,7 +108,7 @@ const Grouplist = () => {
                 </div>
                 <div className="group-list-btn">
                   <button type="button">Join</button>
-                </div>{" "}
+                </div>
               </>
             ) : (
               ""

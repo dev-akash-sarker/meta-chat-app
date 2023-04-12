@@ -1,6 +1,6 @@
 .search_wrapper {
   display: flex;
-  width: 100%;
+  width: 100% !important;
   background-color: white;
   border-radius: 20px;
   -webkit-border-radius: 20px;

@@ -31,6 +31,8 @@ const Mygroup = () => {
     setOpen(false);
   };
 
+  console.log("ami user", user);
+
   useEffect(() => {
     const starCountRef = ref(db, "grouplist/");
     onValue(starCountRef, (snapshot) => {
@@ -116,9 +118,11 @@ const Mygroup = () => {
           <div key={i} className="friends-item-wrapper">
             {item.adminid === user.uid ? (
               <>
-                <div className="friends-images"></div>
+                <div className="friends-images">
+                  <img src={user.photoURL} alt="" />
+                </div>
                 <div className="friends-name">
-                  <h4>Admin Name:{item.adminname}</h4>
+                  <h4>Admin : {item.adminname}</h4>
                   <h5>{item.groupname}</h5>
                   <h6>{item.tagname}</h6>
                 </div>
