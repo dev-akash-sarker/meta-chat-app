@@ -8,6 +8,11 @@ import {
   set,
   remove,
 } from "firebase/database";
+import {
+  getStorage,
+  ref as storageRef,
+  getDownloadURL,
+} from "firebase/storage";
 import { useSelector } from "react-redux";
 
 const FriendRequest = () => {
@@ -42,7 +47,42 @@ const FriendRequest = () => {
 
   const handleCancle = (data) => {
     remove(ref(db, "friendrequest/" + data.id));
+    console.log("abc", data.id);
   };
+
+  useEffect(() => {
+    // storeage database
+    const storage = getStorage();
+    const fetchUsers = ref(db, "friendrequest");
+    onValue(fetchUsers, (snapshot) => {
+      let usersArr = [];
+      snapshot.forEach((users) => {
+        console.log("ki hoise", users.val());
+        if (user.uid !== users.senderid) {
+          getDownloadURL(storageRef(storage, users.val().senderid))
+            .then((url) => {
+              console.log("good man", users.val().senderid);
+              usersArr.push({
+                ...users.val(),
+                id: users.key,
+                profilePicture: url,
+              });
+            })
+            .catch((error) => {
+              usersArr.push({
+                ...users.Val(),
+                id: users.key,
+                profilePicture: null,
+              });
+              // console.log("error", error);
+            })
+            .then(() => {
+              setFriendreq([...usersArr]);
+            });
+        }
+      });
+    });
+  }, []);
 
   return (
     <>
@@ -52,19 +92,25 @@ const FriendRequest = () => {
         </div>
         {frindreq.map((item, i) => (
           <div className="group-item-wrapper" key={i}>
-            <div className="group-images"></div>
-            <div className="group-name">
-              <h5>{item.sendername}</h5>
-              <h6>Dinner?</h6>
-            </div>
-            <div className="group-list-btn">
-              <button type="button" onClick={() => handleAccept(item)}>
-                Accept
-              </button>
-              <button type="button" onClick={() => handleCancle(item)}>
-                Reject
-              </button>
-            </div>
+            {item.senderid !== user.uid && (
+              <>
+                <div className="group-images">
+                  <img src={item.profilePicture} alt="" />
+                </div>
+                <div className="group-name">
+                  <h5>{item.sendername}</h5>
+                  <h6>Dinner?</h6>
+                </div>
+                <div className="group-list-btn">
+                  <button type="button" onClick={() => handleAccept(item)}>
+                    Accept
+                  </button>
+                  <button type="button" onClick={() => handleCancle(item)}>
+                    Reject
+                  </button>
+                </div>
+              </>
+            )}
           </div>
         ))}
       </div>

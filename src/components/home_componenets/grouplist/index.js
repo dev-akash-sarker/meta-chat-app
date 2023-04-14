@@ -5,6 +5,11 @@ import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import { TextField } from "@mui/material";
 import { getDatabase, ref, set, onValue, push } from "firebase/database";
+import {
+  getStorage,
+  ref as storageRef,
+  getDownloadURL,
+} from "firebase/storage";
 import { useSelector } from "react-redux";
 
 const Grouplist = () => {
@@ -46,7 +51,37 @@ const Grouplist = () => {
     });
   }, [db]);
 
-  console.log("mamma", grouplist);
+  useEffect(() => {
+    // storeage database
+    const storage = getStorage();
+    const fetchUsers = ref(db, "grouplist");
+    onValue(fetchUsers, (snapshot) => {
+      let usersArr = [];
+      snapshot.forEach((users) => {
+        if (user.uid !== users.adminid) {
+          getDownloadURL(storageRef(storage, users.val().adminid))
+            .then((url) => {
+              usersArr.push({
+                ...users.val(),
+                id: users.val().adminid,
+                profilePicture: url,
+              });
+            })
+            .catch((error) => {
+              usersArr.push({
+                ...users.Val(),
+                id: users.val().adminid,
+                profilePicture: null,
+              });
+              console.log("error", error);
+            })
+            .then(() => {
+              setGrouplist([...usersArr]);
+            });
+        }
+      });
+    });
+  }, []);
 
   return (
     <>
@@ -98,10 +133,12 @@ const Grouplist = () => {
         </div>
 
         {grouplist.map((item, i) => (
-          <div key={i} className="group-item-wrapper">
-            {item.adminid !== user.uid ? (
-              <>
-                <div className="group-images"></div>
+          <>
+            {item.adminid !== user.uid && (
+              <div key={i} className="group-item-wrapper">
+                <div className="group-images">
+                  <img src={item.profilePicture} alt="" />
+                </div>
                 <div className="group-name">
                   <h5>{item.groupname}</h5>
                   <h6>{item.tagname}</h6>
@@ -109,11 +146,9 @@ const Grouplist = () => {
                 <div className="group-list-btn">
                   <button type="button">Join</button>
                 </div>
-              </>
-            ) : (
-              ""
+              </div>
             )}
-          </div>
+          </>
         ))}
       </div>
     </>

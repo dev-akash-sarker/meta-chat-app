@@ -65,7 +65,7 @@ const Userlist = () => {
       });
     });
   }, []);
-  console.log("user shesh", userlist);
+
   useEffect(() => {
     const starCountRef = ref(db, "users/");
     onValue(starCountRef, (snapshot) => {
