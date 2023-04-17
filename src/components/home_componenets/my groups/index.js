@@ -25,15 +25,11 @@ const Mygroup = () => {
       // console.log(snapshot.val(), "ami ase");
       const groupArr = [];
       snapshot.forEach((groupitem) => {
-        if (groupitem.val().adminid === user.uid) {
-          groupArr.push({ ...groupitem.val(), keyId: groupitem.key });
-        }
+        groupArr.push(groupitem.val());
       });
       setGrouplist(groupArr);
     });
   }, [db]);
-
-  const handlereqshow = (data) => {};
 
   return (
     <>
@@ -41,33 +37,25 @@ const Mygroup = () => {
         <div className="mygroups_header">
           <h4>My Groups</h4>
         </div>
-        {grouplist.length == 0 ? (
-          <div className="nogroup">
-            <span>No Groups Created!</span>
-          </div>
-        ) : (
+        {grouplist.map((item, i) => (
           <>
-            {grouplist.map((item, i) => (
+            {item.adminid === user.uid && (
               <div key={i} className="friends-item-wrapper">
                 <div className="friends-images">
                   <img src={user.photoURL} alt="" />
                 </div>
                 <div className="friends-name">
-                  <span>Admin : {item.adminname}</span>
+                  <h4>Admin : {item.adminname}</h4>
                   <h5>{item.groupname}</h5>
-                  <span>{item.tagname}</span>
-                  <span>{console.log("ami to obak", item)}</span>
+                  <h6>{item.tagname}</h6>
                 </div>
                 <div className="group-list-btn">
-                  <button type="button">info</button>
-                  <button type="button" onClick={() => handlereqshow(item)}>
-                    request
-                  </button>
+                  <button type="button">Remove</button>
                 </div>
               </div>
-            ))}
+            )}
           </>
-        )}
+        ))}
       </div>
     </>
   );

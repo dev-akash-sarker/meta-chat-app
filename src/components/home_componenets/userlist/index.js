@@ -20,6 +20,7 @@ import { BsSearch } from "react-icons/bs";
 const Userlist = () => {
   const [userme, setUserme] = useState([]);
   const [frindreq, setFriendreq] = useState([]);
+  const [avaterprofile, setAvaterprofile] = useState();
   const [canclereq, setCanclereq] = useState([]);
   const [friendlist, setFriendlist] = useState([]);
   const [blocklist, setBlocklist] = useState([]);
@@ -53,8 +54,7 @@ const Userlist = () => {
               usersArr.push({
                 ...users.Val(),
                 id: users.key,
-                profilePicture:
-                  "https://firebasestorage.googleapis.com/v0/b/meta-9c6a3.appspot.com/o/profile.jpg?alt=media&token=6f967d96-86ba-4d57-bc88-9ff983a196e1",
+                profilePicture: null,
               });
             })
             .then(() => {
@@ -65,6 +65,12 @@ const Userlist = () => {
       });
     });
   }, []);
+
+  // if (user.photoURL == null) {
+  //   setAvaterprofile("./images/profile.jpg");
+  // } else {
+  //   setAvaterprofile(user.photoURL);
+  // }
 
   useEffect(() => {
     const starCountRef = ref(db, "users/");
@@ -173,7 +179,11 @@ const Userlist = () => {
         {userme.map((item, i) => (
           <div key={i} className="userlist-item-wrapper">
             <div className="userlist-images">
-              <img src={item.profilePicture} alt="" />
+              {item.profilePicture == null ? (
+                <img src="./images/profile.jpg" alt="profile" />
+              ) : (
+                <img src={item.profilePicture} alt="" />
+              )}
             </div>
             <div className="userlist-name">
               <h5>{item.username}</h5>

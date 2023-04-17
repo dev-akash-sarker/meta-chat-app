@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Container } from "@mui/system";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
@@ -17,13 +17,17 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
   FacebookAuthProvider,
+  updateProfile,
 } from "firebase/auth";
+import { getDatabase, onValue, ref, set } from "firebase/database";
 import { ToastContainer, toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 import { Loginusers } from "../../features/Slice/LoginSlice";
 
 const Signin = () => {
+  const db = getDatabase();
   const [loading, setloading] = useState(false);
+  const [signuser, setSignuser] = useState();
   const provider = new GoogleAuthProvider();
   const providerFB = new FacebookAuthProvider();
   const auth = getAuth();
@@ -45,7 +49,6 @@ const Signin = () => {
         formik.values.password
       )
         .then(({ user }) => {
-          console.log(user);
           dispatch(Loginusers(user));
           localStorage.setItem("users", JSON.stringify(user));
           setloading(false);
@@ -74,7 +77,30 @@ const Signin = () => {
     },
   });
 
-  const handleGoogle = () => {
+  // console.log("aaammmmmi", signuser);
+  useEffect(() => {
+    const db = getDatabase();
+    const starCountRef = ref(db, "users/");
+    onValue(starCountRef, (snapshot) => {
+      let userArr = [];
+      snapshot.forEach((item) => {
+        console.log(item.key, "boka");
+        console.log(auth.currentUser.uid, "tmi vai");
+        if (item.key == auth.currentUser.uid) {
+          // userArr.push({ displayName: item.val().username });
+          updateProfile(auth.currentUser, {
+            displayName: item.val().username,
+            photoURL: "./images/profile.jpg",
+          }).then(() => {
+            dispatch(Loginusers(auth.currentUser));
+            localStorage.setItem("users", JSON.stringify(auth.currentUser));
+          });
+        }
+      });
+    });
+  }, [db]);
+
+  const HandleGoogle = () => {
     signInWithPopup(auth, provider)
       .then(({ user }) => {
         dispatch(Loginusers(user));
@@ -84,11 +110,34 @@ const Signin = () => {
           navigate("/");
         }, 1600);
       })
+      .then(() => {
+        const db = getDatabase();
+        const starCountRef = ref(db, "users/");
+        onValue(starCountRef, (snapshot) => {
+          let userArr = [];
+          snapshot.forEach((item) => {
+            console.log(item.key, "boka");
+            console.log(auth.currentUser.uid, "tmi vai");
+            if (item.key == auth.currentUser.uid) {
+              // userArr.push({ displayName: item.val().username });
+              updateProfile(auth.currentUser, {
+                displayName: item.val().username,
+                photoURL: [],
+              }).then(() => {
+                dispatch(Loginusers(auth.currentUser));
+                localStorage.setItem("users", JSON.stringify(auth.currentUser));
+              });
+            }
+          });
+        });
+      })
       .catch((error) => {
         console.log(error.code);
         console.log("hoy nai");
       });
   };
+
+  // set(ref(db , "users/" + userid))
 
   const handleFacebook = () => {
     signInWithPopup(auth, providerFB)
@@ -116,7 +165,7 @@ const Signin = () => {
               <p>Free register and you can enjoy it</p>
               <div className="thirdParty-auth">
                 <Button
-                  onClick={handleGoogle}
+                  onClick={HandleGoogle}
                   variant="outlined"
                   style={{ margin: "0px 10px 0px 0px" }}
                 >

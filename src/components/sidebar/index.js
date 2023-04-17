@@ -36,7 +36,7 @@ const Sidebar = ({ avaterprofile, setAvaterprofile }) => {
   } else {
     setAvaterprofile(user.photoURL);
   }
-
+  console.log("ssskkkk", user);
   return (
     <>
       <div className="sidebar">
