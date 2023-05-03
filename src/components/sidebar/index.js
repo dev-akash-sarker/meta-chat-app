@@ -72,11 +72,6 @@ const Sidebar = ({ avaterprofile, setAvaterprofile }) => {
       });
   }, [auth.currentUser, dispatch, realname]);
 
-  console.log("main user", user);
-  console.log("username", user.displayName);
-  console.log(avaterprofile);
-  console.log("jelle");
-
   return (
     <>
       <div className="sidebar">
