@@ -75,6 +75,7 @@ const Sidebar = ({ avaterprofile, setAvaterprofile }) => {
   console.log("main user", user);
   console.log("username", user.displayName);
   console.log(avaterprofile);
+  console.log("jelle");
 
   return (
     <>
