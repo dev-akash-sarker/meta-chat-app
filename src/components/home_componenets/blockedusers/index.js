@@ -31,28 +31,32 @@ const Blockedblock = () => {
         <div className="blocklist_header">
           <h4>Blocked Users</h4>
         </div>
-        {blocklist.map((item, i) => (
-          <div key={i} className="blocklist-item-wrapper">
-            {item.blockedById === user.uid ? (
-              <>
-                <div className="blocklist-images"></div>
-                <div className="blocklist-name">
-                  <h5>
-                    {item.blockedById === user.uid ? item.blockedPerson : ""}
-                  </h5>
-                  <h6>Today, 9:58pm</h6>
-                </div>
-                <div className="block-list-btn">
-                  <button type="button" onClick={() => handleUnblocked(item)}>
-                    unblocked
-                  </button>
-                </div>
-              </>
-            ) : (
-              ""
-            )}
-          </div>
-        ))}
+        {blocklist.length === 0 ? (
+          <p className="empty">No blocked users </p>
+        ) : (
+          blocklist.map((item, i) => (
+            <div key={i} className="blocklist-item-wrapper">
+              {item.blockedById === user.uid ? (
+                <>
+                  <div className="blocklist-images"></div>
+                  <div className="blocklist-name">
+                    <h5>
+                      {item.blockedById === user.uid ? item.blockedPerson : ""}
+                    </h5>
+                    <h6>Today, 9:58pm</h6>
+                  </div>
+                  <div className="block-list-btn">
+                    <button type="button" onClick={() => handleUnblocked(item)}>
+                      unblocked
+                    </button>
+                  </div>
+                </>
+              ) : (
+                ""
+              )}
+            </div>
+          ))
+        )}
       </div>
     </>
   );

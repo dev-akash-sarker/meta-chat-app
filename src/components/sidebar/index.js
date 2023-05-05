@@ -60,17 +60,16 @@ const Sidebar = ({ avaterprofile, setAvaterprofile }) => {
     updateProfile(auth.currentUser, {
       displayName: name,
     })
-      .then(({ user }) => {
+      .then(() => {
         // Profile updated!
         // ...
         dispatch(Loginusers(user));
         localStorage.setItem("users", JSON.stringify(user));
       })
       .catch((error) => {
-        // An error occurred
-        // ...
+        console.log(error);
       });
-  }, [auth.currentUser, dispatch, realname]);
+  }, [auth.currentUser, dispatch, realname, user]);
 
   return (
     <>

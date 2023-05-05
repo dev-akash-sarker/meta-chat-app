@@ -26,6 +26,30 @@ body {
   background-color: #f9f9f9;
 }
 
+.empty {
+  margin-top: 20px;
+  background-color: red;
+  color: #fff;
+  text-transform: capitalize;
+  font-family: "poppins", sans-serif;
+  text-align: center;
+  font-weight: 600;
+  padding: 10px 20px;
+  border-radius: 15px;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  -ms-border-radius: 15px;
+  -o-border-radius: 15px;
+}
+
+.group-item-wrapper {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #e7e7e7;
+  padding-bottom: 15px;
+  align-items: center;
+}
+
 /* .accounts p a {
   color: "#EA6C00" !important;
   text-decoration: none !important;

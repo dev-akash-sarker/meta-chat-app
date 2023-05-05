@@ -83,6 +83,18 @@ const Grouplist = () => {
     });
   }, []);
 
+  const handleJoingrp = (item) => {
+    set(push(ref(db, "groupjoinrequest/")), {
+      groupid: item.id,
+      groupname: item.groupname,
+      grouptag: item.tagname,
+      adminname: item.adminname,
+      adminid: item.adminid,
+      userid: user.uid,
+      username: user.displayName,
+    });
+  };
+
   return (
     <>
       <div className="grouplist" id="style-2">
@@ -132,24 +144,30 @@ const Grouplist = () => {
           </Dialog>
         </div>
 
-        {grouplist.map((item, i) => (
-          <>
-            {item.adminid !== user.uid && (
-              <div key={i} className="group-item-wrapper">
-                <div className="group-images">
-                  <img src={item.profilePicture} alt="" />
+        {grouplist.length === 0 ? (
+          <p className="empty">There is no group available!</p>
+        ) : (
+          grouplist.map((item, i) => (
+            <>
+              {item.adminid !== user.uid && (
+                <div key={i} className="group-item-wrapper">
+                  <div className="group-images">
+                    <img src={item.profilePicture} alt="" />
+                  </div>
+                  <div className="group-name">
+                    <h5>{item.groupname}</h5>
+                    <h6>{item.tagname}</h6>
+                  </div>
+                  <div className="group-list-btn">
+                    <button type="button" onClick={() => handleJoingrp(item)}>
+                      Join
+                    </button>
+                  </div>
                 </div>
-                <div className="group-name">
-                  <h5>{item.groupname}</h5>
-                  <h6>{item.tagname}</h6>
-                </div>
-                <div className="group-list-btn">
-                  <button type="button">Join</button>
-                </div>
-              </div>
-            )}
-          </>
-        ))}
+              )}
+            </>
+          ))
+        )}
       </div>
     </>
   );

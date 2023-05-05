@@ -90,29 +90,33 @@ const FriendRequest = () => {
         <div className="grouplist_header">
           <h4>Friend Request</h4>
         </div>
-        {frindreq.map((item, i) => (
-          <div className="group-item-wrapper" key={i}>
-            {item.senderid !== user.uid && (
-              <>
-                <div className="group-images">
-                  <img src={item.profilePicture} alt="" />
-                </div>
-                <div className="group-name">
-                  <h5>{item.sendername}</h5>
-                  <h6>Dinner?</h6>
-                </div>
-                <div className="group-list-btn">
-                  <button type="button" onClick={() => handleAccept(item)}>
-                    Accept
-                  </button>
-                  <button type="button" onClick={() => handleCancle(item)}>
-                    Reject
-                  </button>
-                </div>
-              </>
-            )}
-          </div>
-        ))}
+        {frindreq.length === 0 ? (
+          <p className="empty">There is no friend request</p>
+        ) : (
+          frindreq.map((item, i) => (
+            <div className="group-item-wrapper" key={i}>
+              {item.senderid !== user.uid && (
+                <>
+                  <div className="group-images">
+                    <img src={item.profilePicture} alt="" />
+                  </div>
+                  <div className="group-name">
+                    <h5>{item.sendername}</h5>
+                    <h6>Dinner?</h6>
+                  </div>
+                  <div className="group-list-btn">
+                    <button type="button" onClick={() => handleAccept(item)}>
+                      Accept
+                    </button>
+                    <button type="button" onClick={() => handleCancle(item)}>
+                      Reject
+                    </button>
+                  </div>
+                </>
+              )}
+            </div>
+          ))
+        )}
       </div>
     </>
   );

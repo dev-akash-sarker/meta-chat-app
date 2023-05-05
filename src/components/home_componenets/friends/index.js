@@ -63,31 +63,35 @@ const Friends = () => {
         <div className="friends_header">
           <h4>Friends</h4>
         </div>
-        {myfriend.map((item, i) => (
-          <div key={i} className="friends-item-wrapper">
-            <div className="friends-images"></div>
-            <div className="friends-name">
-              <h5>
-                {item.receiverid === user.uid
-                  ? item.sendername
-                  : item.receivername}
-              </h5>
-              <h6>Dinner?</h6>
+        {myfriend.length === 0 ? (
+          <p className="empty">there is no friends</p>
+        ) : (
+          myfriend.map((item, i) => (
+            <div key={i} className="friends-item-wrapper">
+              <div className="friends-images"></div>
+              <div className="friends-name">
+                <h5>
+                  {item.receiverid === user.uid
+                    ? item.sendername
+                    : item.receivername}
+                </h5>
+                <h6>Dinner?</h6>
+              </div>
+              <div className="friends-list-btn">
+                <button
+                  type="button"
+                  className="block-btn"
+                  onClick={() => handleBlock(item)}
+                >
+                  Block
+                </button>
+                <button onClick={() => handleUnfriend(item)} type="button">
+                  Unfriend
+                </button>
+              </div>
             </div>
-            <div className="friends-list-btn">
-              <button
-                type="button"
-                className="block-btn"
-                onClick={() => handleBlock(item)}
-              >
-                Block
-              </button>
-              <button onClick={() => handleUnfriend(item)} type="button">
-                Unfriend
-              </button>
-            </div>
-          </div>
-        ))}
+          ))
+        )}
       </div>
     </>
   );

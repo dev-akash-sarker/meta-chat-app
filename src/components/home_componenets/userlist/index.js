@@ -170,45 +170,49 @@ const Userlist = () => {
             </div>
           </div>
         </div>
-        {userme.map((item, i) => (
-          <div key={i} className="userlist-item-wrapper">
-            <div className="userlist-images">
-              <img src={item.profilePicture} alt="" />
-            </div>
-            <div className="userlist-name">
-              <h5>{item.username}</h5>
+        {userme.length === 0 ? (
+          <p className="empty">There is no user available!</p>
+        ) : (
+          userme.map((item, i) => (
+            <div key={i} className="userlist-item-wrapper">
+              <div className="userlist-images">
+                <img src={item.profilePicture} alt="" />
+              </div>
+              <div className="userlist-name">
+                <h5>{item.username}</h5>
 
-              <h6>Today, 9:58pm</h6>
-            </div>
+                <h6>Today, 9:58pm</h6>
+              </div>
 
-            <div className="user-list-btn">
-              {friendlist.includes(item.id + user.uid) ||
-              friendlist.includes(user.uid + item.id) ? (
-                <button type="button" disabled>
-                  friends
-                </button>
-              ) : blocklist.includes(item.id + user.uid) ||
-                blocklist.includes(user.uid + item.id) ? (
-                <div>
-                  <button type="button" onClick={() => handleCancle(item)}>
-                    Blocked
+              <div className="user-list-btn">
+                {friendlist.includes(item.id + user.uid) ||
+                friendlist.includes(user.uid + item.id) ? (
+                  <button type="button" disabled>
+                    friends
                   </button>
-                </div>
-              ) : frindreq.includes(item.id + user.uid) ||
-                frindreq.includes(user.uid + item.id) ? (
-                <div>
-                  <button type="button" onClick={() => handleCancle(item)}>
-                    Cancle Request
+                ) : blocklist.includes(item.id + user.uid) ||
+                  blocklist.includes(user.uid + item.id) ? (
+                  <div>
+                    <button type="button" onClick={() => handleCancle(item)}>
+                      Blocked
+                    </button>
+                  </div>
+                ) : frindreq.includes(item.id + user.uid) ||
+                  frindreq.includes(user.uid + item.id) ? (
+                  <div>
+                    <button type="button" onClick={() => handleCancle(item)}>
+                      Cancle Request
+                    </button>
+                  </div>
+                ) : (
+                  <button type="button" onClick={() => handleRequest(item)}>
+                    Add Friend
                   </button>
-                </div>
-              ) : (
-                <button type="button" onClick={() => handleRequest(item)}>
-                  Add Friend
-                </button>
-              )}
+                )}
+              </div>
             </div>
-          </div>
-        ))}
+          ))
+        )}
       </div>
     </>
   );
