@@ -1,30 +1,19 @@
 import React, { useEffect, useState } from "react";
 import "./style.css";
-import { getDatabase, ref, set, push, onValue } from "firebase/database";
+import { getDatabase, ref, onValue } from "firebase/database";
 import { useSelector } from "react-redux";
 
 const Mygroup = () => {
-  const [grpname, setGrpname] = useState("");
-  const [tgname, setTgname] = useState("");
   const [grouplist, setGrouplist] = useState([]);
   const [show, setShow] = useState(false);
   const [groupreqlist, setGroupreqlist] = useState([]);
 
   const user = useSelector((user) => user.login.loggedIn);
   const db = getDatabase();
-  const handleGroups = () => {
-    set(push(ref(db, "groups")), {
-      adminname: user.displayName,
-      adminid: user.uid,
-      groupname: grpname,
-      tagname: tgname,
-    });
-  };
 
   useEffect(() => {
     const starCountRef = ref(db, "grouplist/");
     onValue(starCountRef, (snapshot) => {
-      // console.log(snapshot.val(), "ami ase");
       const groupArr = [];
       snapshot.forEach((groupitem) => {
         if (user.uid === groupitem.val().adminid) {
@@ -33,17 +22,22 @@ const Mygroup = () => {
       });
       setGrouplist(groupArr);
     });
-  }, [db]);
+  }, [db, user.uid]);
 
-  const handleReqShow = (item) => {
+  const handleReqShow = (mainitem) => {
     setShow(true);
     const starCountRef = ref(db, "groupjoinrequest/");
     onValue(starCountRef, (snapshot) => {
-      // console.log(snapshot.val(), "ami ase");
       const groupreqarr = [];
       snapshot.forEach((item) => {
-        if (user.uid === item.val().adminid) {
-          groupreqarr.push({ ...item.val(), id: item.key });
+        if (
+          user.uid === item.val().adminid &&
+          item.val().groupid === mainitem.id
+        ) {
+          groupreqarr.push({
+            ...item.val(),
+            id: item.key,
+          });
         }
       });
       setGroupreqlist(groupreqarr);
@@ -69,20 +63,22 @@ const Mygroup = () => {
             <p className="empty">There is no request</p>
           ) : (
             groupreqlist.map((item, i) => (
-              <div className="mygrp-item-wrapper" key={i}>
-                <div className="mygrp-images">
-                  <img src={item.profilePicture} alt="" />
+              <>
+                <div className="mygrp-item-wrapper" key={i}>
+                  <div className="mygrp-images">
+                    <img src={item.profilePicture} alt="" />
+                  </div>
+                  <div className="mygrp-name">
+                    <h4>{item.username}</h4>
+                  </div>
+                  <div className="group-list-btn">
+                    <button type="button">Accept</button>
+                    <button type="button" style={{ backgroundColor: "red" }}>
+                      Reject
+                    </button>
+                  </div>
                 </div>
-                <div className="mygrp-name">
-                  <h4>{item.username}</h4>
-                </div>
-                <div className="group-list-btn">
-                  <button type="button">Accept</button>
-                  <button type="button" style={{ backgroundColor: "red" }}>
-                    Reject
-                  </button>
-                </div>
-              </div>
+              </>
             ))
           )
         ) : (

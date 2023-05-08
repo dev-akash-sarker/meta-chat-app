@@ -36,7 +36,6 @@ const Grouplist = () => {
     });
     setTimeout(() => {
       setOpen(false);
-      console.log("hoises");
     }, 500);
   };
 
@@ -64,6 +63,7 @@ const Grouplist = () => {
               usersArr.push({
                 ...users.val(),
                 id: users.val().adminid,
+                keyid: users.key,
                 profilePicture: url,
               });
             })
@@ -71,6 +71,7 @@ const Grouplist = () => {
               usersArr.push({
                 ...users.Val(),
                 id: users.val().adminid,
+                keyid: users.key,
                 profilePicture: null,
               });
               console.log("error", error);
@@ -85,7 +86,7 @@ const Grouplist = () => {
 
   const handleJoingrp = (item) => {
     set(push(ref(db, "groupjoinrequest/")), {
-      groupid: item.id,
+      groupid: item.keyid,
       groupname: item.groupname,
       grouptag: item.tagname,
       adminname: item.adminname,
