@@ -9,11 +9,14 @@ import {
   remove,
 } from "firebase/database";
 import { useSelector } from "react-redux";
+import { BsArrowLeft } from "react-icons/bs";
 
 const Mygroup = () => {
   const [grouplist, setGrouplist] = useState([]);
   const [show, setShow] = useState(false);
+  const [inshow, setInshow] = useState(false);
   const [groupreqlist, setGroupreqlist] = useState([]);
+  const [groupmember, setGroupmember] = useState([]);
 
   const user = useSelector((user) => user.login.loggedIn);
   const db = getDatabase();
@@ -52,7 +55,28 @@ const Mygroup = () => {
     setShow(true);
   };
   // Group Information
-  const handleInfoShow = () => {};
+  const handleInfoShow = (mainItem) => {
+    setInshow(true);
+    const starCountRef = ref(db, "groupmembers/");
+    onValue(starCountRef, (snapshot) => {
+      const groupMemberArr = [];
+      snapshot.forEach((item) => {
+        if (
+          user.uid === item.val().adminid &&
+          item.val().groupid === mainItem.id
+        ) {
+          groupMemberArr.push({
+            ...item.val(),
+            id: item.key,
+          });
+        }
+      });
+      setGroupmember(groupMemberArr);
+    });
+    console.log("triggerd");
+  };
+
+  console.log("egg", groupmember);
 
   console.log(groupreqlist);
 
@@ -75,17 +99,39 @@ const Mygroup = () => {
     remove(ref(db, "groupjoinrequest/" + item.id));
   };
 
+  const handleRemoveMember = (data) => {
+    remove(ref(db, "groupmembers/" + data.id));
+    console.log(data.id);
+  };
+
   return (
     <>
       <div className="mygroups" id="style-2">
         <div className="mygroups_header">
           <h4>My Groups</h4>
         </div>
-        {show && (
-          <button onClick={() => setShow(false)} type="button">
-            Go Back
+        {show ? (
+          <button
+            className="goback"
+            onClick={() => setShow(false)}
+            type="button"
+          >
+            <BsArrowLeft fontSize={20} />
+            <span className="arrback">Go Back</span>
           </button>
+        ) : (
+          inshow && (
+            <button
+              className="goback"
+              onClick={() => setShow(false)}
+              type="button"
+            >
+              <BsArrowLeft fontSize={20} />
+              <span className="arrback">Go Back</span>
+            </button>
+          )
         )}
+
         {grouplist.length === 0 ? (
           <p className="empty">No groups created yet</p>
         ) : show ? (
@@ -111,6 +157,32 @@ const Mygroup = () => {
                       style={{ backgroundColor: "red" }}
                     >
                       Reject
+                    </button>
+                  </div>
+                </div>
+              </>
+            ))
+          )
+        ) : // hello
+        inshow ? (
+          groupmember.length === 0 ? (
+            <p className="empty">You have no members</p>
+          ) : (
+            groupmember.map((item, i) => (
+              <>
+                <div className="mygrp-item-wrapper" key={i}>
+                  <div className="mygrp-images">
+                    <img src={item.userimage} alt="" />
+                  </div>
+                  <div className="mygrp-name">
+                    <h4>{item.username}</h4>
+                  </div>
+                  <div className="group-list-btn">
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveMember(item)}
+                    >
+                      remove
                     </button>
                   </div>
                 </div>
