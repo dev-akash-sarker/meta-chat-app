@@ -30,7 +30,7 @@ const Mygroup = () => {
       setGrouplist(groupArr);
     });
   }, [db, user.uid]);
-
+  // Group Request
   const handleReqShow = (mainitem) => {
     setShow(true);
     const starCountRef = ref(db, "groupjoinrequest/");
@@ -51,6 +51,8 @@ const Mygroup = () => {
     });
     setShow(true);
   };
+  // Group Information
+  const handleInfoShow = () => {};
 
   console.log(groupreqlist);
 
@@ -129,7 +131,9 @@ const Mygroup = () => {
                     <h6>{item.tagname}</h6>
                   </div>
                   <div className="group-list-btn">
-                    <button type="button">Info</button>
+                    <button type="button" onClick={() => handleInfoShow(item)}>
+                      Info
+                    </button>
                     <button type="button" onClick={() => handleReqShow(item)}>
                       Request
                     </button>
