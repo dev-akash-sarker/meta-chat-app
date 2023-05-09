@@ -157,3 +157,25 @@
   height: 100%;
   object-fit: cover;
 }
+
+.empty {
+  margin-top: 20px;
+  background-color: #010102 !important;
+  color: #fff;
+  text-transform: capitalize;
+  font-family: "poppins", sans-serif;
+  text-align: center;
+  font-weight: 600;
+  padding: 10px 20px;
+  border-radius: 15px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 15px;
+  -ms-border-radius: 15px;
+  -o-border-radius: 15px;
+}
+
+.mygroups .empty {
+  margin-top: 20px;
+  background-color: #3cf35d !important;
+  color: #fff;
+}

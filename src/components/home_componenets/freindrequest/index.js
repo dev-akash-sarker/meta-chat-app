@@ -86,7 +86,7 @@ const FriendRequest = () => {
 
   return (
     <>
-      <div className="grouplist" id="style-2">
+      <div className="grouplist frndreq" id="style-2">
         <div className="grouplist_header">
           <h4>Friend Request</h4>
         </div>

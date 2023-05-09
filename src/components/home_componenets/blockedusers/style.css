@@ -105,3 +105,9 @@
   font-size: 14px;
   margin: 2px 0;
 }
+
+.blocklist .empty {
+  margin-top: 20px;
+  background-color: #ff2424 !important;
+  color: #fff;
+}

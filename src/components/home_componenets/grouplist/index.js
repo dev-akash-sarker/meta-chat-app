@@ -50,6 +50,8 @@ const Grouplist = () => {
     });
   }, [db]);
 
+  console.log("dekhi vai re dim", grouplist);
+
   useEffect(() => {
     // storeage database
     const storage = getStorage();

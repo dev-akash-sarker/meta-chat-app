@@ -103,3 +103,13 @@
   font-weight: 600;
   font-size: 14px;
 }
+
+.frndreq .empty {
+  background-color: #010102 !important;
+  color: #fff;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+}

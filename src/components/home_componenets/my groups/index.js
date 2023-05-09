@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from "react";
 import "./style.css";
+import {
+  getStorage,
+  ref as storageRef,
+  getDownloadURL,
+} from "firebase/storage";
 import { getDatabase, ref, onValue } from "firebase/database";
 import { useSelector } from "react-redux";
 
@@ -45,6 +50,42 @@ const Mygroup = () => {
     setShow(true);
   };
 
+  useEffect(() => {
+    // storeage database
+    const storage = getStorage();
+    const fetchUsers = ref(db, "grouplist");
+    onValue(fetchUsers, (snapshot) => {
+      let usersArr = [];
+      snapshot.forEach((users) => {
+        if (user.uid !== users.adminid) {
+          getDownloadURL(storageRef(storage, users.val().adminid))
+            .then((url) => {
+              usersArr.push({
+                ...users.val(),
+                id: users.val().adminid,
+                keyid: users.key,
+                profilePicture: url,
+              });
+            })
+            .catch((error) => {
+              usersArr.push({
+                ...users.Val(),
+                id: users.val().adminid,
+                keyid: users.key,
+                profilePicture: null,
+              });
+              console.log("error", error);
+            })
+            .then(() => {
+              setGroupreqlist([...usersArr]);
+            });
+        }
+      });
+    });
+  }, [db, user.uid]);
+
+  console.log("aaaaxxx", groupreqlist);
+
   return (
     <>
       <div className="mygroups" id="style-2">
@@ -64,6 +105,7 @@ const Mygroup = () => {
           ) : (
             groupreqlist.map((item, i) => (
               <>
+                {/* {item.adminid !== user.uid && console.log("hello")} */}
                 <div className="mygrp-item-wrapper" key={i}>
                   <div className="mygrp-images">
                     <img src={item.profilePicture} alt="" />

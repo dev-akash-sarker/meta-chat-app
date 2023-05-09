@@ -148,3 +148,13 @@
   border: 5px solid #fff;
   box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
 }
+
+.friends .empty {
+  background-color: #7298ff !important;
+  color: #fff;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+}
