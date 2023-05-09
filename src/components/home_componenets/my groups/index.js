@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import "./style.css";
 import {
-  getStorage,
-  ref as storageRef,
-  getDownloadURL,
-} from "firebase/storage";
-import { getDatabase, ref, onValue } from "firebase/database";
+  getDatabase,
+  ref,
+  onValue,
+  set,
+  push,
+  remove,
+} from "firebase/database";
 import { useSelector } from "react-redux";
 
 const Mygroup = () => {
@@ -50,41 +52,26 @@ const Mygroup = () => {
     setShow(true);
   };
 
-  useEffect(() => {
-    // storeage database
-    const storage = getStorage();
-    const fetchUsers = ref(db, "grouplist");
-    onValue(fetchUsers, (snapshot) => {
-      let usersArr = [];
-      snapshot.forEach((users) => {
-        if (user.uid !== users.adminid) {
-          getDownloadURL(storageRef(storage, users.val().adminid))
-            .then((url) => {
-              usersArr.push({
-                ...users.val(),
-                id: users.val().adminid,
-                keyid: users.key,
-                profilePicture: url,
-              });
-            })
-            .catch((error) => {
-              usersArr.push({
-                ...users.Val(),
-                id: users.val().adminid,
-                keyid: users.key,
-                profilePicture: null,
-              });
-              console.log("error", error);
-            })
-            .then(() => {
-              setGroupreqlist([...usersArr]);
-            });
-        }
-      });
-    });
-  }, [db, user.uid]);
+  console.log(groupreqlist);
 
-  console.log("aaaaxxx", groupreqlist);
+  const handleAcceptgrp = (item) => {
+    // console.log("ami toh trur", item);
+    set(push(ref(db, "groupmembers")), {
+      adminid: item.adminid,
+      groupid: item.groupid,
+      userid: item.userid,
+      adminname: item.adminname,
+      username: item.username,
+      groupname: item.groupname,
+      userimage: item.userimage,
+    }).then(() => {
+      remove(ref(db, "groupjoinrequest/" + item.id));
+    });
+  };
+
+  const handleRejectgrp = (item) => {
+    remove(ref(db, "groupjoinrequest/" + item.id));
+  };
 
   return (
     <>
@@ -105,17 +92,22 @@ const Mygroup = () => {
           ) : (
             groupreqlist.map((item, i) => (
               <>
-                {/* {item.adminid !== user.uid && console.log("hello")} */}
                 <div className="mygrp-item-wrapper" key={i}>
                   <div className="mygrp-images">
-                    <img src={item.profilePicture} alt="" />
+                    <img src={item.userimage} alt="" />
                   </div>
                   <div className="mygrp-name">
                     <h4>{item.username}</h4>
                   </div>
                   <div className="group-list-btn">
-                    <button type="button">Accept</button>
-                    <button type="button" style={{ backgroundColor: "red" }}>
+                    <button type="button" onClick={() => handleAcceptgrp(item)}>
+                      Accept
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleRejectgrp(item)}
+                      style={{ backgroundColor: "red" }}
+                    >
                       Reject
                     </button>
                   </div>

@@ -95,6 +95,7 @@ const Grouplist = () => {
       adminid: item.adminid,
       userid: user.uid,
       username: user.displayName,
+      userimage: user.photoURL,
     });
   };
 
