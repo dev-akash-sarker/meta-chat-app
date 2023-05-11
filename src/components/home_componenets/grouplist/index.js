@@ -12,11 +12,13 @@ import {
 } from "firebase/storage";
 import { useSelector } from "react-redux";
 
-const Grouplist = () => {
+const Grouplist = ({ grpfind }) => {
+  console.log("hello  ", grpfind);
   const [open, setOpen] = React.useState(false);
   const [groupname, setGroupname] = useState("");
   const [tagname, setTagname] = useState("");
   const [grouplist, setGrouplist] = useState([]);
+  const [filterGroup, setFilterGroup] = useState([]);
   const user = useSelector((user) => user.login.loggedIn);
   const db = getDatabase();
   const handleClickOpen = () => {
@@ -99,6 +101,25 @@ const Grouplist = () => {
     });
   };
 
+  useEffect(() => {
+    let arr = [];
+    console.log("hello xyz", grpfind);
+    grouplist.filter((item) => {
+      if (item.groupname.toLowerCase().includes(grpfind.toLowerCase())) {
+        arr.push(item);
+      }
+    });
+    setFilterGroup(arr);
+  }, [grpfind]);
+
+  console.log("kacchi vai", filterGroup);
+
+  const abc = () => {};
+
+  if (filterGroup.length === 0) {
+    console.log("i love you");
+  }
+
   return (
     <>
       <div className="grouplist" id="style-2">
@@ -147,8 +168,69 @@ const Grouplist = () => {
             </div>
           </Dialog>
         </div>
-
-        {grouplist.length === 0 ? (
+        {filterGroup.length > 0
+          ? filterGroup.map((item, i) => (
+              <>
+                {item.adminid !== user.uid && (
+                  <div key={i} className="group-item-wrapper search_highlights">
+                    <div className="group-images">
+                      <img src={item.profilePicture} alt="" />
+                    </div>
+                    <div className="group-name">
+                      <h5>{item.groupname}</h5>
+                      <h6>{item.tagname}</h6>
+                    </div>
+                    <div className="group-list-btn">
+                      <button type="button" onClick={() => handleJoingrp(item)}>
+                        Join
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </>
+            ))
+          : grouplist.map((item, i) => (
+              <>
+                {item.adminid !== user.uid && (
+                  <div key={i} className="group-item-wrapper">
+                    <div className="group-images">
+                      <img src={item.profilePicture} alt="" />
+                    </div>
+                    <div className="group-name">
+                      <h5>{item.groupname}</h5>
+                      <h6>{item.tagname}</h6>
+                    </div>
+                    <div className="group-list-btn">
+                      <button type="button" onClick={() => handleJoingrp(item)}>
+                        Join
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </>
+            ))}
+        {/* {filterGroup.length > 0 ? (
+          filterGroup.map((item, i) => (
+            <>
+              {item.adminid !== user.uid && (
+                <div key={i} className="group-item-wrapper">
+                  <div className="group-images">
+                    <img src={item.profilePicture} alt="" />
+                  </div>
+                  <div className="group-name">
+                    <h5>{item.groupname}</h5>
+                    <h6>{item.tagname}</h6>
+                  </div>
+                  <div className="group-list-btn">
+                    <button type="button" onClick={() => handleJoingrp(item)}>
+                      Join
+                    </button>
+                  </div>
+                </div>
+              )}
+            </>
+          ))
+        ) : grouplist.length === 0 ? (
           <p className="empty">There is no group available!</p>
         ) : (
           grouplist.map((item, i) => (
@@ -171,7 +253,7 @@ const Grouplist = () => {
               )}
             </>
           ))
-        )}
+        )} */}
       </div>
     </>
   );

@@ -17,13 +17,15 @@ import {
 import { useSelector } from "react-redux";
 import { BsSearch } from "react-icons/bs";
 
-const Userlist = () => {
+const Userlist = ({ grpfind }) => {
   const [userme, setUserme] = useState([]);
   const [frindreq, setFriendreq] = useState([]);
   const [canclereq, setCanclereq] = useState([]);
   const [friendlist, setFriendlist] = useState([]);
   const [blocklist, setBlocklist] = useState([]);
   const [userlist, setUserlist] = useState([]);
+  const [filterUser, setFilterUser] = useState([]);
+  const [filterUserAll, setFilterUserAll] = useState([]);
   const [visible, setVisible] = useState("none");
   const [widths, setWidths] = useState("50px !important");
   const [activeClass, setActiveClass] = useState(
@@ -152,6 +154,26 @@ const Userlist = () => {
     setActiveClass("search_wrapper search_wrapper_users ");
   };
 
+  const handleSearch = (e) => {
+    let arr = [];
+    userlist.filter((item) => {
+      if (item.username.toLowerCase().includes(e.target.value.toLowerCase())) {
+        arr.push(item);
+      }
+    });
+    setFilterUser(arr);
+  };
+
+  useEffect(() => {
+    let arr = [];
+    userlist.filter((item) => {
+      if (item.username.toLowerCase().includes(grpfind.toLowerCase())) {
+        arr.push(item);
+      }
+    });
+    setFilterUserAll(arr);
+    // filterUserAll
+  }, [grpfind]);
   return (
     <>
       <div className="userlist" id="style-2">
@@ -166,53 +188,133 @@ const Userlist = () => {
               <BsSearch />
             </div>
             <div className="search_fills" style={{ display: `${visible}` }}>
-              <input type="text" placeholder="search here ..." />
+              <input
+                onChange={handleSearch}
+                type="text"
+                placeholder="search here ..."
+              />
             </div>
           </div>
         </div>
-        {userme.length === 0 ? (
-          <p className="empty">There is no user available!</p>
-        ) : (
-          userme.map((item, i) => (
-            <div key={i} className="userlist-item-wrapper">
-              <div className="userlist-images">
-                <img src={item.profilePicture} alt="" />
-              </div>
-              <div className="userlist-name">
-                <h5>{item.username}</h5>
+        {filterUserAll.length > 0
+          ? filterUserAll.map((item, i) => (
+              <div key={i} className="userlist-item-wrapper">
+                <div className="userlist-images">
+                  <img src={item.profilePicture} alt="" />
+                </div>
+                <div className="userlist-name">
+                  <h5>{item.username}</h5>
 
-                <h6>Today, 9:58pm</h6>
-              </div>
+                  <h6>Today, 9:58pm</h6>
+                </div>
 
-              <div className="user-list-btn">
-                {friendlist.includes(item.id + user.uid) ||
-                friendlist.includes(user.uid + item.id) ? (
-                  <button type="button" disabled>
-                    friends
-                  </button>
-                ) : blocklist.includes(item.id + user.uid) ||
-                  blocklist.includes(user.uid + item.id) ? (
-                  <div>
-                    <button type="button" onClick={() => handleCancle(item)}>
-                      Blocked
+                <div className="user-list-btn">
+                  {friendlist.includes(item.id + user.uid) ||
+                  friendlist.includes(user.uid + item.id) ? (
+                    <button type="button" disabled>
+                      friends
                     </button>
-                  </div>
-                ) : frindreq.includes(item.id + user.uid) ||
-                  frindreq.includes(user.uid + item.id) ? (
-                  <div>
-                    <button type="button" onClick={() => handleCancle(item)}>
-                      Cancle Request
+                  ) : blocklist.includes(item.id + user.uid) ||
+                    blocklist.includes(user.uid + item.id) ? (
+                    <div>
+                      <button type="button" onClick={() => handleCancle(item)}>
+                        Blocked
+                      </button>
+                    </div>
+                  ) : frindreq.includes(item.id + user.uid) ||
+                    frindreq.includes(user.uid + item.id) ? (
+                    <div>
+                      <button type="button" onClick={() => handleCancle(item)}>
+                        Cancle Request
+                      </button>
+                    </div>
+                  ) : (
+                    <button type="button" onClick={() => handleRequest(item)}>
+                      Add Friend
                     </button>
-                  </div>
-                ) : (
-                  <button type="button" onClick={() => handleRequest(item)}>
-                    Add Friend
-                  </button>
-                )}
+                  )}
+                </div>
               </div>
-            </div>
-          ))
-        )}
+            ))
+          : filterUser.length > 0
+          ? filterUser.map((item, i) => (
+              <div key={i} className="userlist-item-wrapper">
+                <div className="userlist-images">
+                  <img src={item.profilePicture} alt="" />
+                </div>
+                <div className="userlist-name">
+                  <h5>{item.username}</h5>
+
+                  <h6>Today, 9:58pm</h6>
+                </div>
+
+                <div className="user-list-btn">
+                  {friendlist.includes(item.id + user.uid) ||
+                  friendlist.includes(user.uid + item.id) ? (
+                    <button type="button" disabled>
+                      friends
+                    </button>
+                  ) : blocklist.includes(item.id + user.uid) ||
+                    blocklist.includes(user.uid + item.id) ? (
+                    <div>
+                      <button type="button" onClick={() => handleCancle(item)}>
+                        Blocked
+                      </button>
+                    </div>
+                  ) : frindreq.includes(item.id + user.uid) ||
+                    frindreq.includes(user.uid + item.id) ? (
+                    <div>
+                      <button type="button" onClick={() => handleCancle(item)}>
+                        Cancle Request
+                      </button>
+                    </div>
+                  ) : (
+                    <button type="button" onClick={() => handleRequest(item)}>
+                      Add Friend
+                    </button>
+                  )}
+                </div>
+              </div>
+            ))
+          : userme.map((item, i) => (
+              <div key={i} className="userlist-item-wrapper">
+                <div className="userlist-images">
+                  <img src={item.profilePicture} alt="" />
+                </div>
+                <div className="userlist-name">
+                  <h5>{item.username}</h5>
+
+                  <h6>Today, 9:58pm</h6>
+                </div>
+
+                <div className="user-list-btn">
+                  {friendlist.includes(item.id + user.uid) ||
+                  friendlist.includes(user.uid + item.id) ? (
+                    <button type="button" disabled>
+                      friends
+                    </button>
+                  ) : blocklist.includes(item.id + user.uid) ||
+                    blocklist.includes(user.uid + item.id) ? (
+                    <div>
+                      <button type="button" onClick={() => handleCancle(item)}>
+                        Blocked
+                      </button>
+                    </div>
+                  ) : frindreq.includes(item.id + user.uid) ||
+                    frindreq.includes(user.uid + item.id) ? (
+                    <div>
+                      <button type="button" onClick={() => handleCancle(item)}>
+                        Cancle Request
+                      </button>
+                    </div>
+                  ) : (
+                    <button type="button" onClick={() => handleRequest(item)}>
+                      Add Friend
+                    </button>
+                  )}
+                </div>
+              </div>
+            ))}
       </div>
     </>
   );

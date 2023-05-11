@@ -68,7 +68,9 @@ const Friends = () => {
         ) : (
           myfriend.map((item, i) => (
             <div key={i} className="friends-item-wrapper">
-              <div className="friends-images"></div>
+              <div className="friends-images">
+                <img src={item.profilePicture} alt="" />
+              </div>
               <div className="friends-name">
                 <h5>
                   {item.receiverid === user.uid

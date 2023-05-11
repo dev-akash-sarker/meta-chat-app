@@ -123,7 +123,7 @@ const Mygroup = () => {
           inshow && (
             <button
               className="goback"
-              onClick={() => setShow(false)}
+              onClick={() => setInshow(false)}
               type="button"
             >
               <BsArrowLeft fontSize={20} />
@@ -163,8 +163,7 @@ const Mygroup = () => {
               </>
             ))
           )
-        ) : // hello
-        inshow ? (
+        ) : inshow ? (
           groupmember.length === 0 ? (
             <p className="empty">You have no members</p>
           ) : (
