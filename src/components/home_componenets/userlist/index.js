@@ -66,7 +66,7 @@ const Userlist = ({ grpfind }) => {
         }
       });
     });
-  }, []);
+  }, [db, user.uid]);
 
   useEffect(() => {
     const starCountRef = ref(db, "users/");
@@ -161,6 +161,7 @@ const Userlist = ({ grpfind }) => {
         arr.push(item);
       }
     });
+
     setFilterUser(arr);
   };
 
@@ -172,8 +173,8 @@ const Userlist = ({ grpfind }) => {
       }
     });
     setFilterUserAll(arr);
-    // filterUserAll
   }, [grpfind]);
+
   return (
     <>
       <div className="userlist" id="style-2">
@@ -207,6 +208,7 @@ const Userlist = ({ grpfind }) => {
 
                   <h6>Today, 9:58pm</h6>
                 </div>
+                {}
 
                 <div className="user-list-btn">
                   {friendlist.includes(item.id + user.uid) ||

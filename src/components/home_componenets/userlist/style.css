@@ -139,3 +139,16 @@
   font-weight: 400;
   margin-left: 20px;
 }
+
+.notfoundcss {
+  background-color: #000;
+  color: #fff;
+  font-family: "poppins", sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  text-transform: capitalize;
+  text-align: center;
+  /* padding: 20px 16px; */
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
