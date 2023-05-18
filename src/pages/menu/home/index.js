@@ -25,7 +25,10 @@ const Home = () => {
             <Searchbox />
           </div> */}
           <div>
-            <div className="search_wrapper">
+            <div
+              className="search_wrapper"
+              style={{ width: "100% !important" }}
+            >
               <div className="search_icons">
                 <BsSearch />
               </div>

@@ -57,7 +57,6 @@ const FriendRequest = () => {
     onValue(fetchUsers, (snapshot) => {
       let usersArr = [];
       snapshot.forEach((users) => {
-        console.log("ki hoise", users.val());
         if (user.uid !== users.senderid) {
           getDownloadURL(storageRef(storage, users.val().senderid))
             .then((url) => {
@@ -82,7 +81,7 @@ const FriendRequest = () => {
         }
       });
     });
-  }, []);
+  }, [db, user.uid]);
 
   return (
     <>

@@ -18,6 +18,10 @@
   box-sizing: border-box;
 }
 
+.userlist .search_wrapper {
+  width: 65% !important;
+}
+
 .userlist_header {
   display: flex;
   justify-content: space-between;

@@ -184,6 +184,7 @@ const Userlist = ({ grpfind }) => {
             className={activeClass}
             onClose={handleClose}
             onClick={handleOut}
+            style={{ width: "65px !important" }}
           >
             <div className="search_icons">
               <BsSearch />
