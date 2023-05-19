@@ -1,13 +1,6 @@
 import React, { useState } from "react";
 import "./style.css";
-import {
-  getDatabase,
-  ref,
-  onValue,
-  remove,
-  set,
-  push,
-} from "firebase/database";
+import { getDatabase, ref, onValue } from "firebase/database";
 import {
   getStorage,
   ref as storageRef,
@@ -54,35 +47,6 @@ const Friends = () => {
     });
   }, [db, user.uid, storage]);
 
-  const handleBlock = (data) => {
-    if (user.uid === data.senderid) {
-      set(push(ref(db, "block")), {
-        blockedPerson: data.receivername,
-        blockedId: data.receiverid,
-        blockedBy: data.sendername,
-        blockedById: data.senderid,
-      }).then(() => {
-        remove(ref(db, "friends/" + data.fid));
-      });
-    }
-
-    if (user.uid === data.receiverid) {
-      set(push(ref(db, "block")), {
-        blockedPerson: data.sendername,
-        blockedId: data.senderid,
-        blockedBy: data.receivername,
-        blockedById: data.receiverid,
-      }).then(() => {
-        remove(ref(db, "friends/" + data.fid));
-      });
-    }
-  };
-
-  const handleUnfriend = (data) => {
-    remove(ref(db, "friends/" + data.fid));
-    setMyfriend([]);
-  };
-
   console.log("my friends", myfriend);
   return (
     <>
@@ -110,17 +74,8 @@ const Friends = () => {
                 </h5>
                 <h6>Dinner?</h6>
               </div>
-              <div className="friends-list-btn">
-                <button
-                  type="button"
-                  className="block-btn"
-                  onClick={() => handleBlock(item)}
-                >
-                  Block
-                </button>
-                <button onClick={() => handleUnfriend(item)} type="button">
-                  Unfriend
-                </button>
+              <div className="friends-list-btn message-friend">
+                <button type="button">Message</button>
               </div>
             </div>
           ))

@@ -1,0 +1,192 @@
+.message-chat {
+  background: #ffffff;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 20px;
+  padding: 24px 51px;
+  height: 91vh;
+  margin-top: 18px;
+  margin-right: 18px;
+}
+
+.message_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.message_profile {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.profile_image {
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+  overflow: hidden;
+  margin-right: 33px;
+}
+
+.profile_image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile_name .name_tag {
+  font-family: "poppins", sans-serif;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 50px;
+  color: #000;
+}
+
+.profile_name .online_tag {
+  font-family: "poppins", sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 12px;
+  color: rgba(0, 0, 0, 0.85);
+}
+
+.borderBottomMes {
+  border: 1px solid rgba(0, 0, 0, 0.25);
+}
+
+/* left side message and right message  */
+
+.message_screen {
+  overflow-y: auto;
+  box-sizing: border-box;
+  height: 400px;
+}
+.left_screen {
+  text-align: left;
+}
+
+.right_screen {
+  text-align: right;
+}
+.leftMgs,
+.rightMgs {
+  margin-left: 20px;
+  margin-top: 29px;
+}
+
+.leftMgs .msgtext,
+.rightMgs .msgtext {
+  position: relative;
+  display: inline-block;
+  padding: 20px 32px;
+  background-color: #f1f1f1;
+  text-align: center;
+  font-family: "poppins", sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+}
+
+.rightMgs .msgtext {
+  background-color: #5f35f5;
+  color: #fff;
+}
+
+.leftMgs .msgtext::before {
+  content: "";
+  position: absolute;
+  left: -15px;
+  bottom: 0;
+  width: 0;
+  height: 0;
+  border-left: 20px solid transparent;
+  border-right: 25px solid transparent;
+  border-bottom: 25px solid #f1f1f1;
+}
+
+.rightMgs .msgtext::before {
+  content: "";
+  position: absolute;
+  left: -15px;
+  bottom: 0;
+  width: 0;
+  height: 0;
+  border-left: 20px solid transparent;
+  border-right: 25px solid transparent;
+  border-bottom: 25px solid #5f35f5;
+}
+
+.leftMgs .msgtime,
+.rightMgs .msgtime {
+  font-family: "poppins", sans-serif;
+  color: #000;
+  opacity: 25%;
+  font-weight: 600;
+  font-size: 12px;
+}
+
+/* message feild */
+
+.message_feild {
+  display: flex;
+}
+
+.text_msg_feild {
+  width: 100%;
+  height: 45px;
+  background-color: #f1f1f1;
+  margin: 30px 0;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  white-space: pre-wrap;
+  text-align: left;
+}
+
+.send_btn {
+  margin: 30px 0 30px 20px;
+  height: 45px;
+  padding: 0 20px;
+  background-color: #5f35f5;
+  border: none;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+}
+
+.text_input {
+  width: 90%;
+  height: 45px;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  background-color: #f1f1f1;
+  outline: none;
+  overflow-y: auto;
+  margin-left: 10px;
+  border: none;
+}
+
+.btn-left {
+  width: 10%;
+  border: none;
+}
+
+.text_msg_feild {
+  display: flex;
+}

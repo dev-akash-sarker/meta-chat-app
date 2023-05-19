@@ -93,6 +93,12 @@
   color: rgba(0, 0, 0, 0.5);
 }
 
+.message-friend {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .friends-list-btn button {
   width: 100%;
   border: none;
