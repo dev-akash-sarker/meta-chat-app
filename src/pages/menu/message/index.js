@@ -10,13 +10,13 @@ import Chat from "../../../components/message_component/chat";
 const Message = () => {
   return (
     <>
-      <Grid container className="message_pages">
+      <Grid container className="message_pages" justifyContent="space-around">
         <Grid item xs={4} className="message_items">
           <Searchbox style={{ margin: "10px" }} />
           <Groups />
           <Friends />
         </Grid>
-        <Grid item xs={8} className="message_items">
+        <Grid item xs={7} className="message_items">
           <Chat />
         </Grid>
       </Grid>

@@ -7,13 +7,16 @@ import {
   getDownloadURL,
 } from "firebase/storage";
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { Activeuser } from "../../../features/Slice/ActiveuserSlice";
 
 const Friends = () => {
   const user = useSelector((user) => user.login.loggedIn);
+  const activesingle = useSelector((state) => state.active.activeChat);
   const db = getDatabase();
   const storage = getStorage();
   const [myfriend, setMyfriend] = useState([]);
+  const dispatch = useDispatch();
   useEffect(() => {
     const starCountRef = ref(db, "friends/");
     onValue(starCountRef, (snapshot) => {
@@ -47,7 +50,35 @@ const Friends = () => {
     });
   }, [db, user.uid, storage]);
 
-  console.log("my friends", myfriend);
+  // console.log("my friends", myfriend);
+
+  // active users
+  const handleActive = (item) => {
+    console.log("dekhi vaiyaaa", item);
+    // dis;
+    // dispatch({});
+    if (item.receiverid === user.uid) {
+      dispatch(
+        Activeuser({
+          status: "single",
+          id: item.senderid,
+          name: item.sendername,
+          picture: item.profilePicture,
+        }).then(() => {
+          localStorage.setItem("activesingle", JSON.stringify(activesingle));
+        })
+      );
+    } else {
+      dispatch(
+        Activeuser({
+          status: "single",
+          id: item.receiverid,
+          name: item.receivername,
+          picture: item.reciverPicture,
+        })
+      );
+    }
+  };
   return (
     <>
       <div className="friends" id="style-2">
@@ -74,7 +105,10 @@ const Friends = () => {
                 </h5>
                 <h6>Dinner?</h6>
               </div>
-              <div className="friends-list-btn message-friend">
+              <div
+                className="friends-list-btn message-friend"
+                onClick={() => handleActive(item)}
+              >
                 <button type="button">Message</button>
               </div>
             </div>

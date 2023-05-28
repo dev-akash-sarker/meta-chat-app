@@ -55,10 +55,25 @@ const Sidebar = ({ avaterprofile, setAvaterprofile }) => {
     });
   }, [user.uid, db]);
 
-  useEffect(() => {
-    const name = realname.toString("");
+  // useEffect(() => {
+  //   const name = realname.toString("");
+  //   updateProfile(auth.currentUser, {
+  //     displayName: name,
+  //   })
+  //     .then(() => {
+  //       // Profile updated!
+  //       // ...
+  //       dispatch(Loginusers(user));
+  //       localStorage.setItem("users", JSON.stringify(user));
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // }, [auth.currentUser, dispatch, realname, user]);
+
+  const namechanger = () => {
     updateProfile(auth.currentUser, {
-      displayName: name,
+      displayName: realname,
     })
       .then(() => {
         // Profile updated!
@@ -69,7 +84,9 @@ const Sidebar = ({ avaterprofile, setAvaterprofile }) => {
       .catch((error) => {
         console.log(error);
       });
-  }, [auth.currentUser, dispatch, realname, user]);
+  };
+
+  namechanger();
 
   return (
     <>

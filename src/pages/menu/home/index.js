@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Grid from "@mui/material/Grid";
 import "./style.css";
-import Searchbox from "../../../components/home_componenets/searchbox";
+
 import { BsSearch } from "react-icons/bs";
 import Grouplist from "../../../components/home_componenets/grouplist";
 import FriendRequest from "../../../components/home_componenets/freindrequest";
@@ -11,7 +11,6 @@ import Userlist from "../../../components/home_componenets/userlist";
 import Blockedblock from "../../../components/home_componenets/blockedusers";
 
 const Home = () => {
-  const [filterAll, setFilterAll] = useState([]);
   const [groupsearch, setGroupsearch] = useState("");
   const handleSearch = (e) => {
     setGroupsearch(e.target.value);
@@ -21,9 +20,6 @@ const Home = () => {
     <>
       <Grid container className="home_pages">
         <Grid item xs={4} className="home_items">
-          {/* <div>
-            <Searchbox />
-          </div> */}
           <div>
             <div
               className="search_wrapper"

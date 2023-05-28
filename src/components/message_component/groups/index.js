@@ -60,6 +60,10 @@ const Groups = () => {
 
   console.log("hello", groupmessage);
 
+  const handleActive = (item) => {
+    console.log("group", item);
+  };
+
   return (
     <>
       <div className="group_message">
@@ -78,7 +82,10 @@ const Groups = () => {
                 <h5>{item.groupname}</h5>
                 <h6>{item.tagname}</h6>
               </div>
-              <div className="group-list-btn">
+              <div
+                className="group-list-btn"
+                onClick={() => handleActive(item)}
+              >
                 <button type="button">message</button>
               </div>
             </div>

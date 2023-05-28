@@ -1,3 +1,19 @@
+:root {
+  --primary-color: #5f35f5;
+  --primary-font: "Poppins", sans-serif;
+  --secondary-color: #03014c;
+  --secondary-font: "Nunito", sans-serif;
+  --rear-font: "Open Sans", sans-serif;
+  --title-color: #11175d;
+  --read-orange: #ea6c00;
+  --black: #000;
+  --white: #fff;
+  --secondary-white: #f1f1f1;
+  --error: #f55050;
+  --green: #00ff75;
+  --border-color: rgba(3, 1, 76, 0.2);
+}
+
 * {
   margin: 0;
   padding: 0;
