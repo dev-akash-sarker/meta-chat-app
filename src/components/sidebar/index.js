@@ -40,7 +40,7 @@ const Sidebar = ({ avaterprofile, setAvaterprofile }) => {
     } else {
       setAvaterprofile(user.photoURL);
     }
-  }, []);
+  }, [user.photoURL, setAvaterprofile]);
 
   useEffect(() => {
     const starCountRef = ref(db, "users/");

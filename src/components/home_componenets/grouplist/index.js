@@ -166,52 +166,44 @@ const Grouplist = () => {
         {filterGroup.length > 0
           ? filterGroup.map((item, i) => (
               <>
-                <div key={i} className="group-item-wrapper search_highlights">
-                  {item.adminid !== user.uid && (
-                    <>
-                      <div className="group-images">
-                        <img src={item.profilePicture} alt="" />
-                      </div>
-                      <div className="group-name">
-                        <h5>{item.groupname}</h5>
-                        <h6>{item.tagname}</h6>
-                      </div>
-                      <div className="group-list-btn">
-                        <button
-                          type="button"
-                          onClick={() => handleJoingrp(item)}
-                        >
-                          Join
-                        </button>
-                      </div>
-                    </>
-                  )}
-                </div>
+                {item.adminid !== user.uid && (
+                  <div key={i} className="group-item-wrapper search_highlights">
+                    <div className="group-images">
+                      <img src={item.profilePicture} alt="" />
+                    </div>
+                    <div className="group-name">
+                      <h5>{item.groupname}</h5>
+                      <h6>{item.tagname}</h6>
+                    </div>
+                    <div className="group-list-btn">
+                      <button type="button" onClick={() => handleJoingrp(item)}>
+                        Join
+                      </button>
+                    </div>
+                  </div>
+                )}
               </>
             ))
           : grouplist.map((item, i) => (
               <>
-                <div key={i} className="group-item-wrapper">
-                  {item.adminid !== user.uid && (
-                    <>
-                      <div className="group-images">
-                        <img src={item.profilePicture} alt="" />
-                      </div>
-                      <div className="group-name">
-                        <h5>{item.groupname}</h5>
-                        <h6>{item.tagname}</h6>
-                      </div>
-                      <div className="group-list-btn">
-                        <button
-                          type="button"
-                          onClick={() => handleJoingrp(item)}
-                        >
-                          Join
-                        </button>
-                      </div>
-                    </>
-                  )}
-                </div>
+                {item.adminid !== user.uid && (
+                  <div key={i} className="group-item-wrapper">
+                    <div className="group-images">
+                      <img src={item.profilePicture} alt="" />
+                    </div>
+                    {console.log(item.adminid !== user.uid)}
+                    <div className="group-name">
+                      <h5>{item.groupname}</h5>
+                      <h6>{item.tagname}</h6>
+                    </div>
+                    <div className="group-list-btn">
+                      <button type="button" onClick={() => handleJoingrp(item)}>
+                        Join
+                      </button>
+                    </div>
+                  </div>
+                )}
+
                 {/*  */}
               </>
             ))}
