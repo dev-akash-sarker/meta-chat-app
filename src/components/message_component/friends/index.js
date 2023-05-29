@@ -12,6 +12,7 @@ import { Activeuser } from "../../../features/Slice/ActiveuserSlice";
 
 const Friends = () => {
   const user = useSelector((user) => user.login.loggedIn);
+  // eslint-disable-next-line no-unused-vars
   const activesingle = useSelector((state) => state.active.activeChat);
   const db = getDatabase();
   const storage = getStorage();
@@ -55,8 +56,7 @@ const Friends = () => {
   // active users
   const handleActive = (item) => {
     console.log("dekhi vaiyaaa", item);
-    // dis;
-    // dispatch({});
+
     if (item.receiverid === user.uid) {
       dispatch(
         Activeuser({
@@ -64,9 +64,13 @@ const Friends = () => {
           id: item.senderid,
           name: item.sendername,
           picture: item.profilePicture,
-        }).then(() => {
-          localStorage.setItem("Activeuser", JSON.stringify(Activeuser));
         })
+          .then(() => {
+            localStorage.setItem("Activeuser", JSON.stringify(Activeuser));
+          })
+          .catch((error) => {
+            console.log(error);
+          })
       );
     } else {
       dispatch(

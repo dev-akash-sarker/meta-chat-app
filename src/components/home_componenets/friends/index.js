@@ -83,7 +83,6 @@ const Friends = () => {
     setMyfriend([]);
   };
 
-  console.log("my friends", myfriend);
   return (
     <>
       <div className="friends" id="style-2">
@@ -94,35 +93,37 @@ const Friends = () => {
           <p className="empty">there is no friends</p>
         ) : (
           myfriend.map((item, i) => (
-            <div key={i} className="friends-item-wrapper">
-              <div className="friends-images">
-                {item.receiverid === user.uid ? (
-                  <img src={item.profilePicture} alt="" />
-                ) : (
-                  <img src={item.reciverPicture} alt="" />
-                )}
+            <>
+              <div key={i} className="friends-item-wrapper">
+                <div className="friends-images">
+                  {item.receiverid === user.uid ? (
+                    <img src={item.profilePicture} alt="" />
+                  ) : (
+                    <img src={item.reciverPicture} alt="" />
+                  )}
+                </div>
+                <div className="friends-name">
+                  <h5>
+                    {item.receiverid === user.uid
+                      ? item.sendername
+                      : item.receivername}
+                  </h5>
+                  <h6>Dinner?</h6>
+                </div>
+                <div className="friends-list-btn">
+                  <button
+                    type="button"
+                    className="block-btn"
+                    onClick={() => handleBlock(item)}
+                  >
+                    Block
+                  </button>
+                  <button onClick={() => handleUnfriend(item)} type="button">
+                    Unfriend
+                  </button>
+                </div>
               </div>
-              <div className="friends-name">
-                <h5>
-                  {item.receiverid === user.uid
-                    ? item.sendername
-                    : item.receivername}
-                </h5>
-                <h6>Dinner?</h6>
-              </div>
-              <div className="friends-list-btn">
-                <button
-                  type="button"
-                  className="block-btn"
-                  onClick={() => handleBlock(item)}
-                >
-                  Block
-                </button>
-                <button onClick={() => handleUnfriend(item)} type="button">
-                  Unfriend
-                </button>
-              </div>
-            </div>
+            </>
           ))
         )}
       </div>

@@ -34,8 +34,6 @@ const FriendRequest = () => {
     });
   }, [user.uid, db]);
 
-  console.log(frindreq);
-
   const handleAccept = (data) => {
     const db = getDatabase();
     set(push(ref(db, "friends")), {

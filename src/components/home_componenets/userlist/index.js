@@ -27,7 +27,7 @@ const Userlist = () => {
   const [filterUser, setFilterUser] = useState([]);
   const [filterUserAll, setFilterUserAll] = useState([]);
   const [visible, setVisible] = useState("none");
-  const [widths, setWidths] = useState("50px !important");
+  const [widths, setWidths] = useState("65px !important");
   const searchData = useSelector((state) => state.search.searchIn);
   const [activeClass, setActiveClass] = useState(
     "search_wrapper search_wrapper_users "
@@ -161,6 +161,7 @@ const Userlist = () => {
       if (item.username.toLowerCase().includes(e.target.value.toLowerCase())) {
         arr.push(item);
       }
+      return item;
     });
 
     setFilterUser(arr);
@@ -173,15 +174,16 @@ const Userlist = () => {
     let arr = [];
     userlist.filter((item) => {
       if (
-        item.username
+        (item.username || "")
           .toLowerCase()
-          .includes(searchData.searchParam.toLowerCase())
+          .includes((searchData.searchParam || "").toLowerCase())
       ) {
         arr.push(item);
       }
+      return item;
     });
     setFilterUserAll(arr);
-  }, [searchData]);
+  }, [searchData, userlist]);
 
   return (
     <>
@@ -192,7 +194,7 @@ const Userlist = () => {
             className={activeClass}
             onClose={handleClose}
             onClick={handleOut}
-            style={{ width: "65px !important" }}
+            style={{ width: `${widths}` }}
           >
             <div className="search_icons">
               <BsSearch />

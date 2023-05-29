@@ -52,8 +52,6 @@ const Grouplist = () => {
     });
   }, [db]);
 
-  console.log("dekhi vai re dim", grouplist);
-
   useEffect(() => {
     // storeage database
     const storage = getStorage();
@@ -103,6 +101,15 @@ const Grouplist = () => {
 
   useEffect(() => {
     let arr = [];
+    // grouplist.filter((item) => {
+    //   if (
+    //     (item.groupname || "")
+    //       .toLowerCase()
+    //       .includes((searchData.searchParam || "").toLowerCase())
+    //   ) {
+    //     arr.push(item);
+    //   }
+    // });
     grouplist.filter((item) => {
       if (
         (item.groupname || "")
@@ -111,6 +118,7 @@ const Grouplist = () => {
       ) {
         arr.push(item);
       }
+      return item;
     });
     setFilterGroup(arr);
   }, [grouplist, searchData]);
@@ -190,6 +198,7 @@ const Grouplist = () => {
                   <div key={i} className="group-item-wrapper">
                     <div className="group-images">
                       <img src={item.profilePicture} alt="" />
+                      {console.log("bash", item)}
                     </div>
                     {console.log(item.adminid !== user.uid)}
                     <div className="group-name">
