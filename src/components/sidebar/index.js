@@ -34,11 +34,13 @@ const Sidebar = ({ avaterprofile, setAvaterprofile }) => {
     setOpen(true);
   };
 
-  if (user.photoURL == null) {
-    setAvaterprofile("./images/profile.jpg");
-  } else {
-    setAvaterprofile(user.photoURL);
-  }
+  useEffect(() => {
+    if (user.photoURL == null) {
+      setAvaterprofile("./images/profile.jpg");
+    } else {
+      setAvaterprofile(user.photoURL);
+    }
+  }, []);
 
   useEffect(() => {
     const starCountRef = ref(db, "users/");

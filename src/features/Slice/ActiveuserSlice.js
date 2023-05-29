@@ -5,10 +5,10 @@ const initialState = {
 };
 
 export const ActiveuserSlice = createSlice({
-  name: "Activeuser",
+  name: "active",
   initialState,
   reducers: {
-    Activeuser: (state, action) => {
+    Activeusers: (state, action) => {
       state.activeChat = action.payload;
     },
   },

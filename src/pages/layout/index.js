@@ -5,6 +5,7 @@ import Sidebar from "../../components/sidebar";
 
 const Rootlayout = () => {
   const [avaterprofile, setAvaterprofile] = useState("");
+
   return (
     <>
       <div>

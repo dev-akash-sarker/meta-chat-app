@@ -28,6 +28,7 @@ const Userlist = ({ grpfind }) => {
   const [filterUserAll, setFilterUserAll] = useState([]);
   const [visible, setVisible] = useState("none");
   const [widths, setWidths] = useState("50px !important");
+  const searchData = useSelector((state) => state.search.searchIn);
   const [activeClass, setActiveClass] = useState(
     "search_wrapper search_wrapper_users "
   );
@@ -165,15 +166,22 @@ const Userlist = ({ grpfind }) => {
     setFilterUser(arr);
   };
 
+  // console.log("amake dekhao", searchData.searchParam.toLowerCase());
+  // console.log("dhaka jami", searchData.searchParam.toLowerCase());
+
   useEffect(() => {
     let arr = [];
     userlist.filter((item) => {
-      if (item.username.toLowerCase().includes(grpfind.toLowerCase())) {
+      if (
+        item.username
+          .toLowerCase()
+          .includes(searchData.searchParam.toLowerCase())
+      ) {
         arr.push(item);
       }
     });
     setFilterUserAll(arr);
-  }, [grpfind]);
+  }, [searchData, userlist]);
 
   return (
     <>

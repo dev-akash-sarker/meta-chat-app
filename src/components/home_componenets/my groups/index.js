@@ -76,12 +76,7 @@ const Mygroup = () => {
     console.log("triggerd");
   };
 
-  console.log("egg", groupmember);
-
-  console.log(groupreqlist);
-
   const handleAcceptgrp = (item) => {
-    // console.log("ami toh trur", item);
     set(push(ref(db, "groupmembers")), {
       adminid: item.adminid,
       groupid: item.groupid,

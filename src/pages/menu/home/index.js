@@ -9,11 +9,15 @@ import Friends from "../../../components/home_componenets/friends";
 import Mygroup from "../../../components/home_componenets/my groups";
 import Userlist from "../../../components/home_componenets/userlist";
 import Blockedblock from "../../../components/home_componenets/blockedusers";
+import { useDispatch } from "react-redux";
+import { SearchAll } from "../../../features/Slice/SearchSlice";
 
 const Home = () => {
-  const [groupsearch, setGroupsearch] = useState("");
+  const dispatch = useDispatch();
+  // const searchData = useSelector((state) => state.search.searchIn);
   const handleSearch = (e) => {
-    setGroupsearch(e.target.value);
+    console.log(e.target.value);
+    dispatch(SearchAll({ searchParam: e.target.value }));
   };
 
   return (
@@ -38,7 +42,7 @@ const Home = () => {
             </div>
           </div>
           <div>
-            <Grouplist grpfind={groupsearch} />
+            <Grouplist /> {/* searcg */}
           </div>
           <div>
             <FriendRequest />
@@ -46,15 +50,15 @@ const Home = () => {
         </Grid>
         <Grid item xs={4} className="home_items">
           <div>
-            <Friends grpfind={groupsearch} />
+            <Friends /> {/* searcg */}
           </div>
           <div>
-            <Mygroup grpfind={groupsearch} />
+            <Mygroup /> {/* searcg */}
           </div>
         </Grid>
         <Grid item xs={4} className="home_items">
           <div>
-            <Userlist grpfind={groupsearch} />
+            <Userlist /> {/* searcg */}
           </div>
           <div>
             <Blockedblock />
