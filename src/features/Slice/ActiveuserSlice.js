@@ -8,7 +8,7 @@ export const ActiveuserSlice = createSlice({
   name: "active",
   initialState,
   reducers: {
-    Activeusers: (state, action) => {
+    Activeuser: (state, action) => {
       state.activeChat = action.payload;
     },
   },

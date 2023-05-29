@@ -17,7 +17,7 @@ import {
 import { useSelector } from "react-redux";
 import { BsSearch } from "react-icons/bs";
 
-const Userlist = ({ grpfind }) => {
+const Userlist = () => {
   const [userme, setUserme] = useState([]);
   const [frindreq, setFriendreq] = useState([]);
   const [canclereq, setCanclereq] = useState([]);
@@ -181,7 +181,7 @@ const Userlist = ({ grpfind }) => {
       }
     });
     setFilterUserAll(arr);
-  }, [searchData, userlist]);
+  }, [searchData]);
 
   return (
     <>

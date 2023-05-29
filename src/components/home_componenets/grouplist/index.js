@@ -86,7 +86,7 @@ const Grouplist = () => {
         }
       });
     });
-  }, []);
+  }, [db, user.uid]);
 
   const handleJoingrp = (item) => {
     set(push(ref(db, "groupjoinrequest/")), {
@@ -104,12 +104,16 @@ const Grouplist = () => {
   useEffect(() => {
     let arr = [];
     grouplist.filter((item) => {
-      if (item.groupname.toLowerCase().includes(searchData.toLowerCase())) {
+      if (
+        (item.groupname || "")
+          .toLowerCase()
+          .includes((searchData.searchParam || "").toLowerCase())
+      ) {
         arr.push(item);
       }
     });
     setFilterGroup(arr);
-  }, []);
+  }, [grouplist, searchData]);
 
   return (
     <>

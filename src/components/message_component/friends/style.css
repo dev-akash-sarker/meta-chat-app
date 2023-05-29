@@ -52,18 +52,6 @@
   border-bottom: none;
 }
 
-.friends-images {
-  width: 70px;
-  height: 70px;
-  border-radius: 50%;
-  -webkit-border-radius: 50%;
-  -moz-border-radius: 50%;
-  -ms-border-radius: 50%;
-  -o-border-radius: 50%;
-  background-color: red;
-  margin-top: 15px;
-}
-
 .friends-name {
   width: 60%;
   padding-left: 10px;
@@ -145,6 +133,7 @@
   -o-border-radius: 50%;
   background-color: red;
   margin-top: 15px;
+  overflow: hidden;
 }
 
 .friends-images img {

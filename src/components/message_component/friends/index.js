@@ -64,6 +64,8 @@ const Friends = () => {
           id: item.senderid,
           name: item.sendername,
           picture: item.profilePicture,
+        }).then(() => {
+          localStorage.setItem("Activeuser", JSON.stringify(Activeuser));
         })
       );
     } else {

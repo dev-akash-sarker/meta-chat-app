@@ -72,10 +72,16 @@ const Sidebar = ({ avaterprofile, setAvaterprofile }) => {
   //       console.log(error);
   //     });
   // }, [auth.currentUser, dispatch, realname, user]);
+  // console.log(realname.join(""));
 
   const namechanger = () => {
+    // const result = realname.join("");
+    // console.log(result);
+    const result = Object.values(realname).join();
+    console.log(result);
     updateProfile(auth.currentUser, {
-      displayName: realname,
+      displayName: result,
+      //JSON.stringify(realname.join(""))
     })
       .then(() => {
         // Profile updated!
