@@ -1,6 +1,6 @@
 import React from "react";
 import Grid from "@mui/material/Grid";
-import { BsSearch } from "react-icons/bs";
+
 import "./style.css";
 import Searchbox from "../../../components/message_component/searchbox";
 import Groups from "../../../components/message_component/groups";

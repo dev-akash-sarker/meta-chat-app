@@ -7,7 +7,7 @@ import { AiOutlineCamera } from "react-icons/ai";
 import { TfiGallery } from "react-icons/tfi";
 import { MdOutlineKeyboardVoice } from "react-icons/md";
 import { RxCross1 } from "react-icons/rx";
-import Camera, { FACING_MODES, IMAGE_TYPES } from "react-html5-camera-photo";
+import Camera from "react-html5-camera-photo";
 import "react-html5-camera-photo/build/css/index.css";
 // import { AiOutlineRight } from "react-icons/ai";
 import ModalImage from "react-modal-image";
@@ -65,7 +65,9 @@ const Chat = () => {
               {activeChatName === null ? (
                 ""
               ) : (
-                <img src={activeChatName.picture} alt="" />
+                <div className="image_wrap">
+                  <img src={activeChatName.picture} alt="" />
+                </div>
               )}
             </div>
             <div className="info">

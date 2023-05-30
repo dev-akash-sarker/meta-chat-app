@@ -317,7 +317,7 @@ const Userlist = () => {
                     frindreq.includes(user.uid + item.id) ? (
                     <div>
                       <button type="button" onClick={() => handleCancle(item)}>
-                        Cancle Request
+                        Cancle Requestss
                       </button>
                     </div>
                   ) : (

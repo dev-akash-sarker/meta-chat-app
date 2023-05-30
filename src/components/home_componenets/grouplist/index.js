@@ -18,7 +18,7 @@ const Grouplist = () => {
   const [tagname, setTagname] = useState("");
   const [grouplist, setGrouplist] = useState([]);
   const [filterGroup, setFilterGroup] = useState([]);
-  const user = useSelector((user) => user.login.loggedIn);
+  const user = useSelector((state) => state.login.loggedIn);
   const searchData = useSelector((state) => state.search.searchIn);
   const db = getDatabase();
   const handleClickOpen = () => {
@@ -101,15 +101,6 @@ const Grouplist = () => {
 
   useEffect(() => {
     let arr = [];
-    // grouplist.filter((item) => {
-    //   if (
-    //     (item.groupname || "")
-    //       .toLowerCase()
-    //       .includes((searchData.searchParam || "").toLowerCase())
-    //   ) {
-    //     arr.push(item);
-    //   }
-    // });
     grouplist.filter((item) => {
       if (
         (item.groupname || "")
@@ -124,100 +115,94 @@ const Grouplist = () => {
   }, [grouplist, searchData]);
 
   return (
-    <>
-      <div className="grouplist" id="style-2">
-        <div className="grouplist_header">
-          <h4>Group Lists</h4>
-          <button className="grouplist_new_btn" onClick={handleClickOpen}>
-            Create New Groups <RiAddLine className="plus-ico" />
-          </button>
-          <Dialog
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-          >
-            <div className="create-new-group-style">
-              <h3 style={{ marginBottom: "10px" }}>Create Your New Group</h3>
-              <label>Group Name</label>
-              <br />
-              <TextField
-                type="text"
-                placeholder="your group name"
-                margin="dense"
+    <div className="grouplist" id="style-2">
+      <div className="grouplist_header">
+        <h4>Group Lists</h4>
+        <button className="grouplist_new_btn" onClick={handleClickOpen}>
+          Create New Groups <RiAddLine className="plus-ico" />
+        </button>
+        <Dialog
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <div className="create-new-group-style">
+            <h3 style={{ marginBottom: "10px" }}>Create Your New Group</h3>
+            <label>Group Name</label>
+            <br />
+            <TextField
+              type="text"
+              placeholder="your group name"
+              margin="dense"
+              fullWidth
+              onChange={(e) => setGroupname(e.target.value)}
+            />
+            <br />
+            <label>Tag Name</label>
+            <br />
+            <TextField
+              type="text"
+              placeholder="your tag name"
+              margin="dense"
+              fullWidth
+              onChange={(e) => setTagname(e.target.value)}
+            />
+            <div style={{ textAlign: "center" }}>
+              <Button
+                variant="contained"
+                style={{ marginTop: "10px" }}
                 fullWidth
-                onChange={(e) => setGroupname(e.target.value)}
-              />
-              <br />
-              <label>Tag Name</label>
-              <br />
-              <TextField
-                type="text"
-                placeholder="your tag name"
-                margin="dense"
-                fullWidth
-                onChange={(e) => setTagname(e.target.value)}
-              />
-              <div style={{ textAlign: "center" }}>
-                <Button
-                  variant="contained"
-                  style={{ marginTop: "10px" }}
-                  fullWidth
-                  onClick={handleCreateGroupList}
-                >
-                  Create Group
-                </Button>
-              </div>
+                onClick={handleCreateGroupList}
+              >
+                Create Group
+              </Button>
             </div>
-          </Dialog>
-        </div>
-        {filterGroup.length > 0
-          ? filterGroup.map((item, i) => (
-              <>
-                {item.adminid !== user.uid && (
-                  <div key={i} className="group-item-wrapper search_highlights">
-                    <div className="group-images">
-                      <img src={item.profilePicture} alt="" />
-                    </div>
-                    <div className="group-name">
-                      <h5>{item.groupname}</h5>
-                      <h6>{item.tagname}</h6>
-                    </div>
-                    <div className="group-list-btn">
-                      <button type="button" onClick={() => handleJoingrp(item)}>
-                        Join
-                      </button>
-                    </div>
-                  </div>
-                )}
-              </>
-            ))
-          : grouplist.map((item, i) => (
-              <>
-                {item.adminid !== user.uid && (
-                  <div key={i} className="group-item-wrapper">
-                    <div className="group-images">
-                      <img src={item.profilePicture} alt="" />
-                      {console.log("bash", item)}
-                    </div>
-                    {console.log(item.adminid !== user.uid)}
-                    <div className="group-name">
-                      <h5>{item.groupname}</h5>
-                      <h6>{item.tagname}</h6>
-                    </div>
-                    <div className="group-list-btn">
-                      <button type="button" onClick={() => handleJoingrp(item)}>
-                        Join
-                      </button>
-                    </div>
-                  </div>
-                )}
-
-                {/*  */}
-              </>
-            ))}
+          </div>
+        </Dialog>
       </div>
-    </>
+      {filterGroup.length > 0
+        ? filterGroup.map((item, i) => (
+            <div>
+              {item.adminid !== user.uid && (
+                <div key={i} className="group-item-wrapper search_highlights">
+                  <div className="group-images">
+                    <img src={item.profilePicture} alt="" />
+                  </div>
+                  <div className="group-name">
+                    <h5>{item.groupname}</h5>
+                    <h6>{item.tagname}</h6>
+                  </div>
+                  <div className="group-list-btn">
+                    <button type="button" onClick={() => handleJoingrp(item)}>
+                      Join
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          ))
+        : grouplist.map((item, i) => (
+            <div key={i} className="group-item-wrapper">
+              {item.adminid !== user.uid && (
+                <div>
+                  <div className="group-images">
+                    <img src={item.profilePicture} alt="" />
+                  </div>
+                  <div className="group-name">
+                    <h5>{item.groupname}</h5>
+                    <h6>{item.tagname}</h6>
+                  </div>
+                  <div className="group-list-btn">
+                    <button type="button" onClick={() => handleJoingrp(item)}>
+                      Join
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          ))}
+    </div>
   );
 };
 

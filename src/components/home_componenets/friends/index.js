@@ -14,10 +14,12 @@ import {
   getDownloadURL,
 } from "firebase/storage";
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { Activeuser } from "../../../features/Slice/ActiveuserSlice";
 
 const Friends = () => {
-  const user = useSelector((user) => user.login.loggedIn);
+  const user = useSelector((state) => state.login.loggedIn);
+  const dispatch = useDispatch();
   const db = getDatabase();
   const storage = getStorage();
   const [myfriend, setMyfriend] = useState([]);
@@ -83,51 +85,73 @@ const Friends = () => {
     setMyfriend([]);
   };
 
+  // activesinglefrnds
+  const handleActiveSingle = (item) => {
+    if (item.reciverid === user.uid) {
+      dispatch(
+        Activeuser({
+          status: "single",
+          id: item.senderid,
+          name: item.sendername,
+        })
+      );
+      // localStorage.setItem("activeSingle", JSON.stringify(item));
+    } else {
+      dispatch(
+        Activeuser({
+          status: "single",
+          id: item.reciverid,
+          name: item.recivername,
+        })
+      );
+    }
+  };
+
   return (
-    <>
-      <div className="friends" id="style-2">
-        <div className="friends_header">
-          <h4>Friends</h4>
-        </div>
-        {myfriend.length === 0 ? (
-          <p className="empty">there is no friends</p>
-        ) : (
-          myfriend.map((item, i) => (
-            <>
-              <div key={i} className="friends-item-wrapper">
-                <div className="friends-images">
-                  {item.receiverid === user.uid ? (
-                    <img src={item.profilePicture} alt="" />
-                  ) : (
-                    <img src={item.reciverPicture} alt="" />
-                  )}
-                </div>
-                <div className="friends-name">
-                  <h5>
-                    {item.receiverid === user.uid
-                      ? item.sendername
-                      : item.receivername}
-                  </h5>
-                  <h6>Dinner?</h6>
-                </div>
-                <div className="friends-list-btn">
-                  <button
-                    type="button"
-                    className="block-btn"
-                    onClick={() => handleBlock(item)}
-                  >
-                    Block
-                  </button>
-                  <button onClick={() => handleUnfriend(item)} type="button">
-                    Unfriend
-                  </button>
-                </div>
-              </div>
-            </>
-          ))
-        )}
+    <div className="friends" id="style-2">
+      <div className="friends_header">
+        <h4>Friends</h4>
       </div>
-    </>
+      {myfriend.length === 0 ? (
+        <p className="empty">there is no friends</p>
+      ) : (
+        myfriend.map((item, i) => (
+          <div
+            key={i}
+            className="friends-item-wrapper"
+            onClick={() => handleActiveSingle(item)}
+          >
+            <div className="friends-images">
+              {item.receiverid === user.uid ? (
+                <img src={item.profilePicture} alt="" />
+              ) : (
+                <img src={item.reciverPicture} alt="" />
+              )}
+            </div>
+            <div className="friends-name">
+              <h5>
+                {item.receiverid === user.uid
+                  ? item.sendername
+                  : item.receivername}
+              </h5>
+              <h6>Dinner?</h6>
+            </div>
+            <div className="friends-list-btn">
+              <button
+                type="button"
+                className="block-btn"
+                onClick={() => handleBlock(item)}
+              >
+                Block
+              </button>
+              <button onClick={() => handleUnfriend(item)} type="button">
+                Unfriend
+              </button>
+            </div>
+          </div>
+        ))
+      )}
+    </div>
   );
 };
 
