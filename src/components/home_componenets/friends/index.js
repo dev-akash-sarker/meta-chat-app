@@ -14,15 +14,15 @@ import {
   getDownloadURL,
 } from "firebase/storage";
 import { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { Activeuser } from "../../../features/Slice/ActiveuserSlice";
+import { useSelector } from "react-redux";
 import { FiRefreshCcw } from "react-icons/fi";
 
 const Friends = () => {
   const user = useSelector((state) => state.login.loggedIn);
-  const dispatch = useDispatch();
+  const searchData = useSelector((state) => state.search.searchIn);
   const db = getDatabase();
   const [myfriend, setMyfriend] = useState([]);
+  const [filterUserAll, setFilterUserAll] = useState([]);
   const storage = getStorage();
 
   useEffect(() => {
@@ -86,55 +86,87 @@ const Friends = () => {
     setMyfriend([]);
   };
 
-  // activesinglefrnds
-  const handleActiveSingle = (item) => {
-    if (item.reciverid === user.uid) {
-      dispatch(
-        Activeuser({
-          status: "single",
-          id: item.senderid,
-          name: item.sendername,
-        })
-      );
-      // localStorage.setItem("activeSingle", JSON.stringify(item));
-    } else {
-      dispatch(
-        Activeuser({
-          status: "single",
-          id: item.reciverid,
-          name: item.recivername,
-        })
-      );
-    }
-  };
-
-  console.log("my friends", myfriend);
-
   // reload function
-  const Refresh = () => {
-    if (Object.values(myfriend).length > 0 || myfriend === true) {
-      window.location.reload(false);
-    } else {
-      window.location.reload(false);
-    }
+  const refresh = () => {
+    window.location.reload(true);
   };
+
+  useEffect(() => {
+    let arr = [];
+    myfriend.filter((item) => {
+      if (user.uid === item.senderid) {
+        if (
+          (item.receivername || "")
+            .toLowerCase()
+            .includes((searchData.searchParam || "").toLowerCase())
+        ) {
+          arr.push(item);
+        }
+      } else {
+        if (
+          (item.sendername || "")
+            .toLowerCase()
+            .includes((searchData.searchParam || "").toLowerCase())
+        ) {
+          arr.push(item);
+        }
+      }
+
+      return item;
+    });
+    setFilterUserAll(arr);
+  }, [searchData, myfriend, user.uid]);
+
+  console.log("filter", filterUserAll);
   return (
     <div className="friends" id="style-2">
       <div className="friends_header">
         <h4>Friends</h4>
-        <button onClick={() => Refresh}>
+        <button onClick={refresh}>
           <FiRefreshCcw />
         </button>
       </div>
-      {myfriend.length === 0 ? (
+      {filterUserAll.length > 0 ? (
+        filterUserAll.map((item, i) => (
+          <div key={i} className="friends-item-wrapper">
+            {console.log("item dekhao", item)}
+            <div className="friends-images">
+              {item.receiverid === user.uid ? (
+                <img src={item.profilePicture} alt="" />
+              ) : (
+                <img src={item.reciverPicture} alt="" />
+              )}
+            </div>
+            <div className="friends-name">
+              <h5>
+                {/* {item.receiverid === user.uid
+              ? item.sendername
+              : item.receivername} */}
+                {user.uid === item.senderid
+                  ? item.receivername
+                  : item.sendername}
+              </h5>
+              <h6>Dinner?</h6>
+            </div>
+            <div className="friends-list-btn">
+              <button
+                type="button"
+                className="block-btn"
+                onClick={() => handleBlock(item)}
+              >
+                Block
+              </button>
+              <button onClick={() => handleUnfriend(item)} type="button">
+                Unfriend
+              </button>
+            </div>
+          </div>
+        ))
+      ) : myfriend.length === 0 ? (
         <p className="empty">there is no friends</p>
       ) : (
         myfriend.map((item, i) => (
-          <div
-            key={i}
-            className="friends-item-wrapper"
-            onClick={() => handleActiveSingle(item)}
-          >
+          <div key={i} className="friends-item-wrapper">
             {console.log("item dekhao", item)}
             <div className="friends-images">
               {item.receiverid === user.uid ? (

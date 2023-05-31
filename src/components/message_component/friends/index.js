@@ -46,7 +46,7 @@ const Friends = () => {
             })
             .then(() => {
               setMyfriend(friendArr);
-              setMyfrd(friendArr);
+              setMyfrd([...friendArr]);
             });
         }
       });
@@ -67,13 +67,8 @@ const Friends = () => {
           name: item.sendername,
           picture: item.profilePicture,
         })
-          .then(() => {
-            localStorage.setItem("Activeuser", JSON.stringify(Activeuser));
-          })
-          .catch((error) => {
-            console.log(error);
-          })
       );
+      // localStorage.setItem("Activeuser", JSON.stringify(Activeuser));
     } else {
       dispatch(
         Activeuser({
@@ -83,6 +78,7 @@ const Friends = () => {
           picture: item.reciverPicture,
         })
       );
+      // localStorage.setItem("Activeuser", JSON.stringify(Activeuser));
     }
   };
   return (

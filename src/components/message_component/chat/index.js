@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./style.css";
 import { FaEllipsisV } from "react-icons/fa";
 import { FaPaperPlane } from "react-icons/fa";
@@ -12,49 +12,70 @@ import "react-html5-camera-photo/build/css/index.css";
 // import { AiOutlineRight } from "react-icons/ai";
 import ModalImage from "react-modal-image";
 import { useSelector } from "react-redux";
-// import { styled } from "@mui/material/styles";
-// import SpeedDial from "@mui/material/SpeedDial";
-// import SpeedDialIcon from "@mui/material/SpeedDialIcon";
-// import SpeedDialAction from "@mui/material/SpeedDialAction";
-// import MoodIcon from "@mui/icons-material/Mood";
-// import CameraAltIcon from "@mui/icons-material/CameraAlt";
-// import PhotoSizeSelectActualOutlinedIcon from "@mui/icons-material/PhotoSizeSelectActualOutlined";
-
+import { getDatabase, ref, onValue, set, push } from "firebase/database";
+import moment from "moment/moment";
 const Chat = () => {
   const [open, setOpen] = useState(false);
   const [openCam, setOpenCam] = useState(false);
+  const [msg, setMsg] = useState("");
+  const [msgList, setMsgList] = useState([]);
   const chooseFile = useRef(null);
+  const user = useSelector((state) => state.login.loggedIn);
   const activeChatName = useSelector((active) => active.active.activeChat);
-
+  const db = getDatabase();
   function handleTakePhoto(dataUri) {
     // Do stuff with the photo...
     console.log("takePhoto");
   }
 
-  // const StyledSpeedDial = styled(SpeedDial)(({ theme }) => ({
-  //   position: "absolute",
-  //   "&.MuiSpeedDial-directionUp, &.MuiSpeedDial-directionLeft": {
-  //     bottom: theme.spacing(2),
-  //     right: theme.spacing(2),
-  //   },
-  //   "&.MuiSpeedDial-directionDown, &.MuiSpeedDial-directionRight": {
-  //     top: theme.spacing(2),
-  //     left: theme.spacing(2),
-  //   },
-  // }));
-
-  // const actions = [
-  //   { icon: <MoodIcon />, name: "Emoji" },
-  //   { icon: <CameraAltIcon />, name: "Camera" },
-  //   { icon: <KeyboardVoiceIcon />, name: "Voice" },
-  //   { icon: <PhotoSizeSelectActualOutlinedIcon />, name: "Gallery" },
-  // ];
+  console.log(msgList);
 
   // const [direction, setDirection] = React.useState("right");
   function handleCameraStop() {
     console.log("handleCameraStop");
   }
   // const handleImageUpload = () => {};
+
+  // send message
+
+  const handleMsg = () => {
+    if (activeChatName?.status === "single") {
+      // if the input value is empty - message never send
+      if (msg.length > 0) {
+        set(push(ref(db, "singleMessage")), {
+          myuserid: user.uid,
+          myusername: user.displayName,
+          myreciverid: activeChatName.id,
+          myrecivername: activeChatName.name,
+          message: msg,
+          date: ` ${new Date().getFullYear()} - ${
+            new Date().getMonth() + 1
+          } - ${new Date()} ${new Date().getHours()} : ${new Date().getMinutes()} `,
+        });
+      }
+    } else {
+      console.log("nai");
+    }
+  };
+
+  // get all message
+  useEffect(() => {
+    const starCountRef = ref(db, "singleMessage/");
+    onValue(starCountRef, (snapshot) => {
+      let singleMessageArr = [];
+      snapshot.forEach((item) => {
+        if (
+          (item.val().myuserid === user.uid &&
+            item.val().myreciverid === activeChatName.id) ||
+          (item.val().myreciverid === user.uid &&
+            item.val().myuserid === activeChatName.id)
+        ) {
+          singleMessageArr.push(item.val());
+        }
+        setMsgList(singleMessageArr);
+      });
+    });
+  }, [activeChatName, db, user.uid]);
 
   return (
     <>
@@ -82,15 +103,40 @@ const Chat = () => {
         </div>
         <div className="message">
           {/* left message start */}
-          <div className="left_msg">
+          {activeChatName?.status === "single"
+            ? msgList.map((item, i) =>
+                item.myuserid === user.uid ? (
+                  item.myuserid === user.uid ? (
+                    <div className="right_msg">
+                      <div className="right_text">
+                        <p>{item.message}</p>
+                      </div>
+                      <span>
+                        {moment(item.date, "YYYYMMDD hh:mm").fromNow()}
+                      </span>
+                    </div>
+                  ) : (
+                    "msg nai"
+                  )
+                ) : (
+                  <div className="left_msg">
+                    <div className="left_text">
+                      <p>{item.message}</p>
+                    </div>
+                    <span>{moment(item.date, "YYYYMMDD hh:mm").fromNow()}</span>
+                  </div>
+                )
+              )
+            : "grp msg"}
+          {/* <div className="left_msg">
             <div className="left_text">
               <p>Hello how are you</p>
             </div>
             <span>Today, 2:30pm</span>
-          </div>
+          </div> */}
           {/* left message end */}
           {/* right message start */}
-          <div className="right_msg">
+          {/* <div className="right_msg">
             <div className="right_text">
               <p>
                 Hello how are you Lorem ipsum dolor sit, amet consectetur
@@ -104,10 +150,10 @@ const Chat = () => {
               </p>
             </div>
             <span>Today, 2:30pm</span>
-          </div>
+          </div> */}
           {/* right message end */}
           {/* left message start */}
-          <div className="left_msg">
+          {/* <div className="left_msg">
             <div className="left_img">
               <ModalImage
                 small={"./images/men.jpg"}
@@ -116,10 +162,10 @@ const Chat = () => {
               />
             </div>
             <span>Today, 2:30pm</span>
-          </div>
+          </div> */}
           {/* left message end */}
           {/* right message start */}
-          <div className="right_msg">
+          {/* <div className="right_msg">
             <div className="right_img">
               <ModalImage
                 small={"./images/men.jpg"}
@@ -128,30 +174,30 @@ const Chat = () => {
               />
             </div>
             <span>Today, 2:30pm</span>
-          </div>
+          </div> */}
           {/* right message end */}
           {/* left message start */}
-          <div className="left_msg">
+          {/* <div className="left_msg">
             <audio controls src=""></audio>
             <span>Today, 2:30pm</span>
-          </div>
+          </div> */}
           {/* left message end */}
           {/* right message start */}
-          <div className="right_msg">
+          {/* <div className="right_msg">
             <audio controls src=""></audio>
             <span>Today, 2:30pm</span>
-          </div>
+          </div> */}
           {/* right message end */}
           {/* left message start */}
-          <div className="left_msg">
+          {/* <div className="left_msg">
             <video controls src=""></video>
             <span>Today, 2:30pm</span>
-          </div>
+          </div> */}
           {/* left message end */}
         </div>
         <div className="message-inputs">
           <div className="text_inputs">
-            <input type="text" />
+            <input type="text" onChange={(e) => setMsg(e.target.value)} />
             <div className="options">
               <div onClick={() => setOpen(!open)}>
                 <BsPlusLg />
@@ -188,7 +234,7 @@ const Chat = () => {
               )}
             </div>
           </div>
-          <button className="message_send">
+          <button className="message_send" onClick={handleMsg}>
             <FaPaperPlane />
           </button>
         </div>

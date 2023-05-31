@@ -23,7 +23,7 @@ const Userlist = () => {
   const [canclereq, setCanclereq] = useState([]);
   const [friendlist, setFriendlist] = useState([]);
   const [blocklist, setBlocklist] = useState([]);
-  const [userlist, setUserlist] = useState([]);
+
   const [filterUser, setFilterUser] = useState([]);
   const [filterUserAll, setFilterUserAll] = useState([]);
   const [visible, setVisible] = useState("none");
@@ -159,7 +159,7 @@ const Userlist = () => {
 
   const handleSearch = (e) => {
     let arr = [];
-    userlist.filter((item) => {
+    userme.filter((item) => {
       if (item.username.toLowerCase().includes(e.target.value.toLowerCase())) {
         arr.push(item);
       }
@@ -174,7 +174,7 @@ const Userlist = () => {
 
   useEffect(() => {
     let arr = [];
-    userlist.filter((item) => {
+    userme.filter((item) => {
       if (
         (item.username || "")
           .toLowerCase()
@@ -185,7 +185,7 @@ const Userlist = () => {
       return item;
     });
     setFilterUserAll(arr);
-  }, [searchData, userlist]);
+  }, [searchData, userme]);
 
   return (
     <>
