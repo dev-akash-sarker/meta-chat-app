@@ -18,6 +18,7 @@ const Sidebar = ({ avaterprofile, setAvaterprofile }) => {
   const db = getDatabase();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  console.log("murgi", realname);
   const handleLogout = () => {
     signOut(auth)
       .then(() => {

@@ -16,45 +16,46 @@ import {
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Activeuser } from "../../../features/Slice/ActiveuserSlice";
+import { FiRefreshCcw } from "react-icons/fi";
 
 const Friends = () => {
   const user = useSelector((state) => state.login.loggedIn);
   const dispatch = useDispatch();
   const db = getDatabase();
-  const storage = getStorage();
   const [myfriend, setMyfriend] = useState([]);
+  const storage = getStorage();
+
   useEffect(() => {
-    const starCountRef = ref(db, "friends/");
+    // as reference for database collection
+    const starCountRef = ref(db, "friends");
     onValue(starCountRef, (snapshot) => {
       const friendArr = [];
+      // this will loop your items as snapshot
       snapshot.forEach((item) => {
-        if (
-          user.uid === item.val().receiverid ||
-          user.uid === item.val().senderid
-        ) {
-          getDownloadURL(storageRef(storage, item.val().receiverid))
-            .then((url) => {
-              friendArr.push({
-                ...item.val(),
-                fid: item.key,
-                reciverPicture: url,
-              });
-            })
-            .catch((error) => {
-              friendArr.push({
-                ...item.val(),
-                fid: item.key,
-                reciverPicture: null,
-                errors: error,
-              });
-            })
-            .then(() => {
-              setMyfriend(friendArr);
+        getDownloadURL(storageRef(storage, item.val().receiverid))
+          .then((url) => {
+            friendArr.push({
+              ...item.val(),
+              fid: item.key,
+              reciverPicture: url,
             });
-        }
+          })
+          .catch((error) => {
+            friendArr.push({
+              ...item.val(),
+              fid: item.key,
+              reciverPicture: null,
+              errors: error,
+            });
+          })
+          .then(() => {
+            setMyfriend([...friendArr]);
+          });
       });
     });
   }, [db, user.uid, storage]);
+
+  console.log(myfriend);
 
   const handleBlock = (data) => {
     if (user.uid === data.senderid) {
@@ -107,10 +108,23 @@ const Friends = () => {
     }
   };
 
+  console.log("my friends", myfriend);
+
+  // reload function
+  const Refresh = () => {
+    if (Object.values(myfriend).length > 0 || myfriend === true) {
+      window.location.reload(false);
+    } else {
+      window.location.reload(false);
+    }
+  };
   return (
     <div className="friends" id="style-2">
       <div className="friends_header">
         <h4>Friends</h4>
+        <button onClick={() => Refresh}>
+          <FiRefreshCcw />
+        </button>
       </div>
       {myfriend.length === 0 ? (
         <p className="empty">there is no friends</p>
@@ -121,6 +135,7 @@ const Friends = () => {
             className="friends-item-wrapper"
             onClick={() => handleActiveSingle(item)}
           >
+            {console.log("item dekhao", item)}
             <div className="friends-images">
               {item.receiverid === user.uid ? (
                 <img src={item.profilePicture} alt="" />
@@ -130,9 +145,12 @@ const Friends = () => {
             </div>
             <div className="friends-name">
               <h5>
-                {item.receiverid === user.uid
+                {/* {item.receiverid === user.uid
                   ? item.sendername
-                  : item.receivername}
+                  : item.receivername} */}
+                {user.uid === item.senderid
+                  ? item.receivername
+                  : item.sendername}
               </h5>
               <h6>Dinner?</h6>
             </div>

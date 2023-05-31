@@ -17,6 +17,7 @@ const Friends = () => {
   const db = getDatabase();
   const storage = getStorage();
   const [myfriend, setMyfriend] = useState([]);
+  const [myfrd, setMyfrd] = useState([]);
   const dispatch = useDispatch();
   useEffect(() => {
     const starCountRef = ref(db, "friends/");
@@ -45,13 +46,14 @@ const Friends = () => {
             })
             .then(() => {
               setMyfriend(friendArr);
+              setMyfrd(friendArr);
             });
         }
       });
     });
   }, [db, user.uid, storage]);
 
-  // console.log("my friends", myfriend);
+  console.log("my friends is", myfrd);
 
   // active users
   const handleActive = (item) => {
@@ -92,7 +94,7 @@ const Friends = () => {
         {myfriend.length === 0 ? (
           <p className="empty">there is no friends</p>
         ) : (
-          myfriend.map((item, i) => (
+          myfrd.map((item, i) => (
             <div key={i} className="friends-item-wrapper">
               <div className="friends-images">
                 {item.receiverid === user.uid ? (

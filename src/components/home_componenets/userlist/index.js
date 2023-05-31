@@ -61,13 +61,15 @@ const Userlist = () => {
               });
             })
             .then(() => {
-              setUserlist([...usersArr]);
+              // setUserlist([...usersArr]);
               setUserme([...usersArr]);
             });
         }
       });
     });
   }, [db, user.uid]);
+
+  console.log("jack sparrow", userme);
 
   useEffect(() => {
     const starCountRef = ref(db, "users/");

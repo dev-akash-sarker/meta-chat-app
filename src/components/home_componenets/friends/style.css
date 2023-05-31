@@ -34,6 +34,24 @@
   border: 3px solid var(--scrollbarBG);
 }
 
+.friends_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.friends_header button {
+  background-color: #fff;
+  border: none;
+  color: #22df7a;
+  font-size: 20px;
+  transition: 1s linear all;
+}
+
+.friends_header button:hover {
+  color: #e344ff;
+}
+
 .friends_header h4 {
   font-family: "poppins", sans-serif;
   font-weight: 600;
