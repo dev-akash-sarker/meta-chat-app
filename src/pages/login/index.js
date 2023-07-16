@@ -18,6 +18,7 @@ import {
   signInWithPopup,
   FacebookAuthProvider,
 } from "firebase/auth";
+import { getDatabase, ref, set } from "firebase/database";
 import { ToastContainer, toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 import { Loginusers } from "../../features/Slice/LoginSlice";
@@ -45,6 +46,11 @@ const Signin = () => {
         formik.values.password
       )
         .then(({ user }) => {
+          const db = getDatabase();
+          set(ref(db, "loginuser/" + user.uid), {
+            active: "online",
+          });
+
           console.log(user);
           dispatch(Loginusers(user));
           localStorage.setItem("users", JSON.stringify(user));

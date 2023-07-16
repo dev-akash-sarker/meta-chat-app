@@ -15,7 +15,9 @@
     "firebase": "^9.17.1",
     "formik": "^2.2.9",
     "moment": "^2.29.4",
+    "moment-with-locales-es6": "^1.0.1",
     "react": "^18.2.0",
+    "react-audio-voice-recorder": "^2.0.0",
     "react-cropper": "^2.1.8",
     "react-dom": "^18.2.0",
     "react-html5-camera-photo": "^1.5.11",
@@ -27,6 +29,7 @@
     "react-spinners": "^0.13.8",
     "react-toastify": "^9.1.1",
     "styled-components": "^5.3.6",
+    "uuid": "^9.0.0",
     "web-vitals": "^2.1.4",
     "yup": "^1.0.0"
   },

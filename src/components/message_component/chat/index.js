@@ -5,30 +5,90 @@ import { FaPaperPlane } from "react-icons/fa";
 import { BsPlusLg } from "react-icons/bs";
 import { AiOutlineCamera } from "react-icons/ai";
 import { TfiGallery } from "react-icons/tfi";
-import { MdOutlineKeyboardVoice } from "react-icons/md";
+import { BsMicFill } from "react-icons/bs";
 import { RxCross1 } from "react-icons/rx";
 import Camera from "react-html5-camera-photo";
 import "react-html5-camera-photo/build/css/index.css";
 // import { AiOutlineRight } from "react-icons/ai";
-import ModalImage from "react-modal-image";
+// import ModalImage from "react-modal-image";
 import { useSelector } from "react-redux";
 import { getDatabase, ref, onValue, set, push } from "firebase/database";
+import {
+  getStorage,
+  ref as sref,
+  uploadBytesResumable,
+  getDownloadURL,
+  uploadString,
+  uploadBytes,
+} from "firebase/storage";
 import moment from "moment/moment";
+import { v4 as uuidv4 } from "uuid";
+import ModalImage from "react-modal-image";
+import { AudioRecorder } from "react-audio-voice-recorder";
+import { Button } from "@mui/material";
 const Chat = () => {
   const [open, setOpen] = useState(false);
   const [openCam, setOpenCam] = useState(false);
   const [msg, setMsg] = useState("");
+  const [blob, setBlob] = useState();
+  const [audiourl, setAudiourl] = useState();
+  const [showaudio, setShowaudio] = useState(false);
   const [msgList, setMsgList] = useState([]);
+  const [isactive, setIsactive] = useState([]);
   const chooseFile = useRef(null);
   const user = useSelector((state) => state.login.loggedIn);
   const activeChatName = useSelector((active) => active.active.activeChat);
   const db = getDatabase();
+  const storage = getStorage();
   function handleTakePhoto(dataUri) {
-    // Do stuff with the photo...
-    console.log("takePhoto");
+    // setCaptureImage(dataUri);
+    const storageRef = sref(storage, uuidv4());
+    uploadString(storageRef, dataUri, "data_url").then((snapshot) => {
+      getDownloadURL(storageRef).then((downloadURL) => {
+        set(push(ref(db, "singleMessage")), {
+          myuserid: user.uid,
+          myusername: user.displayName,
+          myreciverid: activeChatName.id,
+          myrecivername: activeChatName.name,
+          message: msg,
+          img: downloadURL,
+          date: ` ${new Date().getFullYear()} - ${
+            new Date().getMonth() + 1
+          } - ${new Date()} ${new Date().getHours()} : ${new Date().getMinutes()} `,
+        }).then(() => {
+          setOpenCam(false);
+        });
+      });
+    });
   }
+  // function handleTakePhoto(dataUri) {
+  //   const storage = getStorage();
+  //   // console.log(dataUri);
+  //   const storageRef = sref(storage, uuidv4());
+  //   console.log("hhhh", storageRef);
 
-  console.log(msgList);
+  //   uploadString(storageRef, dataUri, "data_uri").then((snapshot) => {
+  //     console.log("snapshot", snapshot);
+  //     // getDownloadURL(storageRef).then((downloadURL) => {
+  // set(push(ref(db, "singleMessage")), {
+  //   myuserid: user.uid,
+  //   myusername: user.displayName,
+  //   myreciverid: activeChatName.id,
+  //   myrecivername: activeChatName.name,
+  //   message: msg,
+  //   img: downloadURL,
+  //   date: ` ${new Date().getFullYear()} - ${
+  //     new Date().getMonth() + 1
+  //   } - ${new Date()} ${new Date().getHours()} : ${new Date().getMinutes()} `,
+  // }).then(() => {
+  //   setOpenCam(false);
+  // });
+  //     //   // console.log("File available at", downloadURL);
+  //     // });
+  //   });
+  // }
+
+  // console.log(msgList);
 
   // const [direction, setDirection] = React.useState("right");
   function handleCameraStop() {
@@ -41,23 +101,21 @@ const Chat = () => {
   const handleMsg = () => {
     if (activeChatName?.status === "single") {
       // if the input value is empty - message never send
-      if (msg.length > 0) {
-        set(push(ref(db, "singleMessage")), {
-          myuserid: user.uid,
-          myusername: user.displayName,
-          myreciverid: activeChatName.id,
-          myrecivername: activeChatName.name,
-          message: msg,
-          date: ` ${new Date().getFullYear()} - ${
-            new Date().getMonth() + 1
-          } - ${new Date()} ${new Date().getHours()} : ${new Date().getMinutes()} `,
-        });
-      }
+      set(push(ref(db, "singleMessage")), {
+        myuserid: user.uid,
+        myusername: user.displayName,
+        myreciverid: activeChatName.id,
+        myrecivername: activeChatName.name,
+        message: msg,
+        date: ` ${new Date().getFullYear()} - ${
+          new Date().getMonth() + 1
+        } - ${new Date().getDate()} ${new Date().getHours()} : ${new Date().getMinutes()} `,
+      });
     } else {
       console.log("nai");
     }
   };
-
+  // console.log("kutta");
   // get all message
   useEffect(() => {
     const starCountRef = ref(db, "singleMessage/");
@@ -77,24 +135,195 @@ const Chat = () => {
     });
   }, [activeChatName, db, user.uid]);
 
+  const handleImageUpload = (e) => {
+    setOpen(false);
+    // console.log("ase", e.target.files[0]);
+    const storageRef = sref(storage, "message" + uuidv4());
+
+    const uploadTask = uploadBytesResumable(storageRef, e.target.files[0]);
+
+    // Register three observers:
+    // 1. 'state_changed' observer, called any time the state changes
+    // 2. Error observer, called on failure
+    // 3. Completion observer, called on successful completion
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        // Observe state change events such as progress, pause, and resume
+        // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log("Upload is " + progress + "% done");
+        // eslint-disable-next-line default-case
+        switch (snapshot.state) {
+          case "paused":
+            console.log("Upload is paused");
+            break;
+          case "running":
+            console.log("Upload is running");
+            break;
+        }
+      },
+      (error) => {
+        // Handle unsuccessful uploads
+        console.log(error);
+      },
+      () => {
+        // Handle successful uploads on complete
+        // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          set(push(ref(db, "singleMessage")), {
+            myuserid: user.uid,
+            myusername: user.displayName,
+            myreciverid: activeChatName.id,
+            myrecivername: activeChatName.name,
+            message: msg,
+            img: downloadURL,
+            date: `${new Date().getFullYear()} - ${
+              new Date().getMonth() + 1
+            } - ${new Date().getDate()} ${new Date().getHours()} : ${new Date().getMinutes()}`,
+          });
+          console.log("File available at", downloadURL);
+        });
+      }
+    );
+  };
+
+  console.log("chomchom", typeof isactive);
+
+  useEffect(() => {
+    const starCountRef = ref(db, "loginuser");
+    onValue(starCountRef, (snapshot) => {
+      const activeArr = [];
+      snapshot.forEach((item) => {
+        if (user.uid !== item.key) {
+          activeArr.push({ ...item.val(), id: item.key });
+          console.log("hello mamu ni", item.val());
+        }
+      });
+      setIsactive(activeArr);
+      localStorage.setItem("ifactive", JSON.stringify(isactive));
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handleEnterPress = (e) => {
+    if (e.key === "Enter") {
+      if (activeChatName?.status === "single") {
+        // if the input value is empty - message never send
+        set(push(ref(db, "singleMessage")), {
+          myuserid: user.uid,
+          myusername: user.displayName,
+          myreciverid: activeChatName.id,
+          myrecivername: activeChatName.name,
+          message: msg,
+          date: `${new Date().getFullYear()} - ${
+            new Date().getMonth() + 1
+          } - ${new Date().getDate()} ${new Date().getHours()} : ${new Date().getMinutes()}`,
+        }).then(() => {});
+      } else {
+        console.log("nai");
+      }
+    }
+    // console.log("dkh", e.target.value);
+  };
+
+  // audio part
+
+  const addAudioElement = (blob) => {
+    const url = URL.createObjectURL(blob);
+    // const audio = document.createElement("audio");
+    // audio.src = url;
+    // audio.controls = true;
+    setAudiourl(url);
+    setBlob(blob);
+    // document.body.appendChild(audio);
+  };
+
+  console.log("dekhi", blob, audiourl);
+  const handleAudioUpload = () => {
+    const storage = getStorage();
+    const audiostorageRef = sref(storage, audiourl);
+
+    // 'file' comes from the Blob or File API
+    uploadBytes(audiostorageRef, blob).then((snapshot) => {
+      getDownloadURL(audiostorageRef).then((downloadURL) => {
+        set(push(ref(db, "singleMessage")), {
+          myuserid: user.uid,
+          myusername: user.displayName,
+          myreciverid: activeChatName.id,
+          myrecivername: activeChatName.name,
+          audio: downloadURL,
+          date: `${new Date().getFullYear()} - ${
+            new Date().getMonth() + 1
+          } - ${new Date().getDate()} ${new Date().getHours()} : ${new Date().getMinutes()}`,
+        }).then(() => {
+          setAudiourl("");
+        });
+      });
+    });
+  };
   return (
     <>
       <div className="chatting_box">
         <div className="active_user_status">
           <div className="user_image">
-            <div className="image">
-              {activeChatName === null ? (
-                ""
-              ) : (
-                <div className="image_wrap">
-                  <img src={activeChatName.picture} alt="" />
+            {activeChatName === null ? (
+              ""
+            ) : isactive.length === 0 ? (
+              <div className="image offline">
+                {activeChatName === null ? (
+                  ""
+                ) : (
+                  <div className="image_wrap">
+                    <img src={activeChatName.picture} alt="" />
+                  </div>
+                )}
+              </div>
+            ) : (
+              isactive.map((item, i) => (
+                <div key={i}>
+                  {item.id === activeChatName.id ? (
+                    <div className="image">
+                      {activeChatName === null ? (
+                        ""
+                      ) : (
+                        <div className="image_wrap">
+                          <img src={activeChatName.picture} alt="" />
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    ""
+                  )}
                 </div>
-              )}
-            </div>
+              ))
+            )}
+            {/* {isactive.length > 0 ? (
+              <div className="image">
+                {activeChatName === null ? (
+                  ""
+                ) : (
+                  <div className="image_wrap">
+                    <img src={activeChatName.picture} alt="" />
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="offline image">
+                {activeChatName === null ? (
+                  ""
+                ) : (
+                  <div className="image_wrap">
+                    <img src={activeChatName.picture} alt="" />
+                  </div>
+                )}
+              </div>
+            )} */}
+
             <div className="info">
               {activeChatName === null ? "" : <h4>{activeChatName.name}</h4>}
-
-              <span>Online</span>
+              {isactive.length > 0 ? <span>Online</span> : <span>Offline</span>}
             </div>
           </div>
           <div className="info_bar">
@@ -104,6 +333,77 @@ const Chat = () => {
         <div className="message">
           {/* left message start */}
           {activeChatName?.status === "single"
+            ? msgList.map((item, i) => (
+                <div key={i}>
+                  {item.myuserid === user.uid ? (
+                    item.message ? (
+                      <div className="right_msg">
+                        <div className="right_text">
+                          <p>{item.message}</p>
+                        </div>
+                        <span>
+                          {moment(item.date, "YYYYMMDD hh:mm").fromNow()}
+                        </span>
+                      </div>
+                    ) : item.img ? (
+                      <div className="right_msg">
+                        <div className="right_img">
+                          <ModalImage
+                            small={item.img}
+                            large={item.img}
+                            alt=""
+                          />
+                        </div>
+                        <span>
+                          {moment(item.date, "YYYYMMDD hh:mm").fromNow()}
+                        </span>
+                      </div>
+                    ) : item.audio ? (
+                      <div className="right_msg">
+                        <div className="right_img">
+                          <audio controls src={item.audio}></audio>
+                        </div>
+                        <span>
+                          {moment(item.date, "YYYYMMDD hh:mm").fromNow()}
+                        </span>
+                      </div>
+                    ) : (
+                      ""
+                    )
+                  ) : item.message ? (
+                    <div className="left_msg">
+                      <div className="left_text">
+                        <p>{item.message}</p>
+                      </div>
+                      <span>
+                        {moment(item.date, "YYYYMMDD hh:mm").fromNow()}
+                      </span>
+                    </div>
+                  ) : item.img ? (
+                    <div className="left_msg">
+                      <div className="left_img">
+                        <ModalImage small={item.img} large={item.img} alt="" />
+                      </div>
+                      <span>
+                        {moment(item.date, "YYYYMMDD hh:mm").fromNow()}
+                      </span>
+                    </div>
+                  ) : item.audio ? (
+                    <div className="left_msg">
+                      <div className="left_img">
+                        <audio controls src={item.audio}></audio>
+                      </div>
+                      <span>
+                        {moment(item.date, "YYYYMMDD hh:mm").fromNow()}
+                      </span>
+                    </div>
+                  ) : (
+                    ""
+                  )}
+                </div>
+              ))
+            : ""}
+          {/* {activeChatName?.status === "single"
             ? msgList.map((item, i) =>
                 item.myuserid === user.uid ? (
                   item.myuserid === user.uid ? (
@@ -116,7 +416,7 @@ const Chat = () => {
                       </span>
                     </div>
                   ) : (
-                    "msg nai"
+                    <div>{item.img}</div>
                   )
                 ) : (
                   <div className="left_msg">
@@ -127,7 +427,7 @@ const Chat = () => {
                   </div>
                 )
               )
-            : "grp msg"}
+            : "grp msg"} */}
           {/* <div className="left_msg">
             <div className="left_text">
               <p>Hello how are you</p>
@@ -196,47 +496,78 @@ const Chat = () => {
           {/* left message end */}
         </div>
         <div className="message-inputs">
-          <div className="text_inputs">
-            <input type="text" onChange={(e) => setMsg(e.target.value)} />
-            <div className="options">
-              <div onClick={() => setOpen(!open)}>
-                <BsPlusLg />
-              </div>
+          {!showaudio && !audiourl && (
+            <div className="text_inputs">
+              <input
+                type="text"
+                onKeyUp={handleEnterPress}
+                onChange={(e) => setMsg(e.target.value)}
+              />
 
-              {open && (
-                <div className="more">
-                  <div className="camera">
-                    <div>
-                      <div onClick={() => setOpenCam(true)}>
-                        <AiOutlineCamera fontSize={30} />
-                      </div>
-                    </div>
-                  </div>
-                  <label className="galleryX">
-                    <div onClick={() => chooseFile.current.click()}>
-                      <TfiGallery />
-                    </div>
-                    <input
-                      hidden
-                      // onChange={handleImageUpload}
-                      type="file"
-                      ref={chooseFile}
-                    />
-                  </label>
-                  <div className="voiceRec">
-                    <div>
-                      <div>
-                        <MdOutlineKeyboardVoice fontSize={30} />
-                      </div>
-                    </div>
-                  </div>
+              <div className="options">
+                <div onClick={() => setOpen(!open)}>
+                  <BsPlusLg />
                 </div>
-              )}
+
+                {open && (
+                  <div className="more">
+                    <div className="camera">
+                      <div>
+                        <div onClick={() => setOpenCam(true)}>
+                          <AiOutlineCamera fontSize={30} />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="galleryX">
+                      <div onClick={() => chooseFile.current.click()}>
+                        <TfiGallery />
+                      </div>
+                      <input
+                        hidden
+                        onChange={handleImageUpload}
+                        type="file"
+                        ref={chooseFile}
+                      />
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
+          )}
+          <div className="recorderbtn" onClick={() => setShowaudio(!showaudio)}>
+            {/* <BsMicFill fontSize={16} /> */}
+            <AudioRecorder
+              onRecordingComplete={(blob) => addAudioElement(blob)}
+              // audioTrackConstraints={{
+              //   noiseSuppression: true,
+              //   echoCancellation: true,
+              // }}
+              // downloadOnSavePress={true}
+              // downloadFileExtension="webm"
+            />
           </div>
-          <button className="message_send" onClick={handleMsg}>
-            <FaPaperPlane />
-          </button>
+          {!showaudio && !audiourl && (
+            <button className="message_send" onClick={handleMsg}>
+              <FaPaperPlane />
+            </button>
+          )}
+
+          {audiourl && (
+            <>
+              <div className="audio_wrapper">
+                <audio controls src={audiourl}></audio>
+                <Button className="audio_send" onClick={handleAudioUpload}>
+                  Send
+                </Button>
+                <Button
+                  className="audio_delete"
+                  onClick={() => setAudiourl("")}
+                >
+                  Delete
+                </Button>
+              </div>
+            </>
+          )}
         </div>
         {openCam && (
           <div className="capture_image">

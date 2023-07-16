@@ -3,7 +3,7 @@ import { AiOutlineHome } from "react-icons/ai";
 import { AiOutlineMessage } from "react-icons/ai";
 import { AiOutlineBell } from "react-icons/ai";
 import { BsGear } from "react-icons/bs";
-import { Link, NavLink, useMatch } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import "./style.css";
 
 const Sidepage = () => {

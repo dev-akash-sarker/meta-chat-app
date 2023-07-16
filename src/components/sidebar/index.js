@@ -9,7 +9,7 @@ import { AiOutlineCloudUpload } from "react-icons/ai";
 import { getAuth, signOut, updateProfile } from "firebase/auth";
 import { useSelector } from "react-redux";
 import PopupModel from "../modal";
-import { getDatabase, ref, onValue } from "firebase/database";
+import { getDatabase, ref, onValue, remove } from "firebase/database";
 const Sidebar = ({ avaterprofile, setAvaterprofile }) => {
   const [realname, setRealname] = useState("");
   const [open, setOpen] = React.useState(false);
@@ -23,6 +23,7 @@ const Sidebar = ({ avaterprofile, setAvaterprofile }) => {
     signOut(auth)
       .then(() => {
         localStorage.removeItem("users");
+        remove(ref(db, "loginuser/" + user.uid));
         dispatch(Loginusers(null));
         navigate("/");
       })
