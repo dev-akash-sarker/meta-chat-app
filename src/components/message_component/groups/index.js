@@ -6,13 +6,14 @@ import {
   ref as storageRef,
   getDownloadURL,
 } from "firebase/storage";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { Activeuser } from "../../../features/Slice/ActiveuserSlice";
 
 const Groups = () => {
   const db = getDatabase();
   const user = useSelector((user) => user.login.loggedIn);
   const [groupmessage, setGroupmessage] = useState([]);
-
+  const dispatch = useDispatch();
   useEffect(() => {
     // const storage = getStorage();
     const starCountRef = ref(db, "grouplist");
@@ -58,6 +59,35 @@ const Groups = () => {
     });
   }, [db, user.uid]);
 
+  const handleActive = (item) => {
+    console.log("itemssss", item);
+    if (item.receiverid === user.uid) {
+      dispatch(
+        Activeuser({
+          status: "multiple",
+          id: item.adminid,
+          name: item.groupname,
+          picture: item.profilePicture,
+          groupid: item.id,
+        })
+      );
+
+      // localStorage.setItem("Activeuser", JSON.stringify(Activeuser));
+    } else {
+      console.log("hhh", item);
+      dispatch(
+        Activeuser({
+          status: "multiple",
+          id: item.adminid,
+          name: item.groupname,
+          picture: item.profilePicture,
+          groupid: item.id,
+        })
+      );
+      // localStorage.setItem("Activeuser", JSON.stringify(Activeuser));
+    }
+  };
+  console.log("aaaaaaaaaaaaaaa", groupmessage);
   return (
     <>
       <div className="group_message">
@@ -76,7 +106,10 @@ const Groups = () => {
                 <h5>{item.groupname}</h5>
                 <h6>{item.tagname}</h6>
               </div>
-              <div className="group-list-btn">
+              <div
+                className="group-list-btn"
+                onClick={() => handleActive(item)}
+              >
                 <button type="button">message</button>
               </div>
             </div>

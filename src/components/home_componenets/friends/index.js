@@ -66,6 +66,21 @@ const Friends = () => {
         blockedById: data.senderid,
       }).then(() => {
         remove(ref(db, "friends/" + data.fid));
+        if (user.uid === data.senderid) {
+          set(push(ref(db, "mynotify/" + user.uid)), {
+            message: "You blocked " + data.receivername,
+            blockedId: data.senderid,
+
+            blockedById: data.receiverid,
+          });
+        } else if (user.uid === data.receiverid) {
+          set(push(ref(db, "mynotify/" + user.uid)), {
+            message: "You blocked " + data.sendername,
+            blockedId: data.senderid,
+
+            blockedById: data.receiverid,
+          });
+        }
       });
     }
 
@@ -77,6 +92,12 @@ const Friends = () => {
         blockedById: data.receiverid,
       }).then(() => {
         remove(ref(db, "friends/" + data.fid));
+        set(push(ref(db, "mynotify/" + user.uid)), {
+          message: "You blocked " + data.receivername,
+          blockedId: data.senderid,
+
+          blockedById: data.receiverid,
+        });
       });
     }
   };

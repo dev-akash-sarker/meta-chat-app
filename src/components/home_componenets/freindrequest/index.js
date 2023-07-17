@@ -39,6 +39,10 @@ const FriendRequest = () => {
     set(push(ref(db, "friends")), {
       ...data,
     }).then(() => {
+      set(push(ref(db, "mynotify/" + data.senderid)), {
+        message: user.displayName + " has accept your friend request",
+        ...data,
+      });
       remove(ref(db, "friendrequest/" + data.id));
     });
   };

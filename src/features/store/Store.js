@@ -13,6 +13,7 @@ const store = configureStore({
     active: activeSlice,
     search: searchSlice,
   },
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
 });
 
 export default store;

@@ -96,6 +96,13 @@ const Grouplist = () => {
       userid: user.uid,
       username: user.displayName,
       userimage: user.photoURL,
+    }).then(() => {
+      set(push(ref(db, "mynotify/" + item.adminid)), {
+        message: user.displayName + " has request to join to " + item.groupname,
+        groupname: item.groupname,
+        adminname: item.adminname,
+        adminid: item.adminid,
+      });
     });
   };
 

@@ -107,6 +107,12 @@ const Userlist = () => {
       senderid: user.uid,
       receivername: item.username,
       receiverid: item.id,
+    }).then(() => {
+      set(push(ref(db, "mynotify/" + user.uid)), {
+        senderid: user.uid,
+        receiverid: item.id,
+        message: user.displayName + " has send request to " + item.username,
+      });
     });
   };
 
@@ -117,11 +123,15 @@ const Userlist = () => {
     canclereq.map((item) => {
       if (data.id === item.receiverid) {
         remove(ref(db, "friendrequest/" + item.maindId));
+        remove(ref(db, "mynotify/" + user.uid));
+        console.log("dekhi ami dekhi", item.mainId);
       } else {
         console.log("hoy nai");
       }
       return "";
     });
+
+    // remove(ref(db, "mynotify/" + user.uid));
   };
 
   // as friends

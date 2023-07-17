@@ -414,3 +414,31 @@
   padding: 4px;
   left: 2px;
 }
+
+.text_inputs {
+  position: relative;
+}
+
+.emojidesign {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  position: absolute;
+  top: 8px;
+  right: 101px;
+  background-color: #ebebeb;
+  box-shadow: 0 2px 5px #bebebe;
+}
+
+.flexemoji {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.emoji-pickers {
+  position: absolute;
+  top: -452px;
+  left: 0;
+}
