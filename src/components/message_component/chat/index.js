@@ -5,7 +5,6 @@ import { FaPaperPlane } from "react-icons/fa";
 import { BsPlusLg } from "react-icons/bs";
 import { AiOutlineCamera } from "react-icons/ai";
 import { TfiGallery } from "react-icons/tfi";
-import { BsMicFill } from "react-icons/bs";
 import { RxCross1 } from "react-icons/rx";
 import Camera from "react-html5-camera-photo";
 import "react-html5-camera-photo/build/css/index.css";
