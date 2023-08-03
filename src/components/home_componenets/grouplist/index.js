@@ -60,7 +60,9 @@ const Grouplist = () => {
       let usersArr = [];
       snapshot.forEach((users) => {
         if (user.uid !== users.adminid) {
-          getDownloadURL(storageRef(storage, users.val().adminid))
+          getDownloadURL(
+            storageRef(storage, `profile_Image/${users.val().adminid}`)
+          )
             .then((url) => {
               usersArr.push({
                 ...users.val(),
@@ -96,6 +98,13 @@ const Grouplist = () => {
       userid: user.uid,
       username: user.displayName,
       userimage: user.photoURL,
+    }).then(() => {
+      set(push(ref(db, "mynotify/" + item.adminid)), {
+        message: user.displayName + " has request to join to " + item.groupname,
+        groupname: item.groupname,
+        adminname: item.adminname,
+        adminid: item.adminid,
+      });
     });
   };
 

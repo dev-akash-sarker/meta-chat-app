@@ -39,6 +39,10 @@ const FriendRequest = () => {
     set(push(ref(db, "friends")), {
       ...data,
     }).then(() => {
+      set(push(ref(db, "mynotify/" + data.senderid)), {
+        message: user.displayName + " has accept your friend request",
+        ...data,
+      });
       remove(ref(db, "friendrequest/" + data.id));
     });
   };
@@ -56,7 +60,9 @@ const FriendRequest = () => {
       let usersArr = [];
       snapshot.forEach((users) => {
         if (user.uid !== users.senderid) {
-          getDownloadURL(storageRef(storage, users.val().senderid))
+          getDownloadURL(
+            storageRef(storage, `profile_Image/${users.val().senderid}`)
+          )
             .then((url) => {
               console.log("good man", users.val().senderid);
               usersArr.push({

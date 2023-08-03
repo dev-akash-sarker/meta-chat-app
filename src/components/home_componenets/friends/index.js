@@ -32,30 +32,37 @@ const Friends = () => {
       const friendArr = [];
       // this will loop your items as snapshot
       snapshot.forEach((item) => {
-        getDownloadURL(storageRef(storage, item.val().receiverid))
-          .then((url) => {
-            friendArr.push({
-              ...item.val(),
-              fid: item.key,
-              reciverPicture: url,
+        // const fileRef = storageRef.child("file.png");
+        console.log(item.val());
+        if (
+          user.uid === item.val().receiverid ||
+          user.uid === item.val().senderid
+        ) {
+          getDownloadURL(
+            storageRef(storage, `profile_Image/${item.val().receiverid}`)
+          )
+            .then((url) => {
+              friendArr.push({
+                ...item.val(),
+                fid: item.key,
+                reciverPicture: url,
+              });
+            })
+            .catch((error) => {
+              friendArr.push({
+                ...item.val(),
+                fid: item.key,
+                reciverPicture: null,
+                errors: error,
+              });
+            })
+            .then(() => {
+              setMyfriend([...friendArr]);
             });
-          })
-          .catch((error) => {
-            friendArr.push({
-              ...item.val(),
-              fid: item.key,
-              reciverPicture: null,
-              errors: error,
-            });
-          })
-          .then(() => {
-            setMyfriend([...friendArr]);
-          });
+        }
       });
     });
   }, [db, user.uid, storage]);
-
-  console.log(myfriend);
 
   const handleBlock = (data) => {
     if (user.uid === data.senderid) {
@@ -66,6 +73,21 @@ const Friends = () => {
         blockedById: data.senderid,
       }).then(() => {
         remove(ref(db, "friends/" + data.fid));
+        if (user.uid === data.senderid) {
+          set(push(ref(db, "mynotify/" + user.uid)), {
+            message: "You blocked " + data.receivername,
+            blockedId: data.senderid,
+
+            blockedById: data.receiverid,
+          });
+        } else if (user.uid === data.receiverid) {
+          set(push(ref(db, "mynotify/" + user.uid)), {
+            message: "You blocked " + data.sendername,
+            blockedId: data.senderid,
+
+            blockedById: data.receiverid,
+          });
+        }
       });
     }
 
@@ -77,6 +99,11 @@ const Friends = () => {
         blockedById: data.receiverid,
       }).then(() => {
         remove(ref(db, "friends/" + data.fid));
+        set(push(ref(db, "mynotify/" + user.uid)), {
+          message: "You blocked " + data.receivername,
+          blockedId: data.senderid,
+          blockedById: data.receiverid,
+        });
       });
     }
   };
@@ -117,7 +144,8 @@ const Friends = () => {
     setFilterUserAll(arr);
   }, [searchData, myfriend, user.uid]);
 
-  console.log("filter", filterUserAll);
+  console.log(myfriend);
+
   return (
     <div className="friends" id="style-2">
       <div className="friends_header">

@@ -28,7 +28,9 @@ const Friends = () => {
           user.uid === item.val().receiverid ||
           user.uid === item.val().senderid
         ) {
-          getDownloadURL(storageRef(storage, item.val().receiverid))
+          getDownloadURL(
+            storageRef(storage, `profile_Image/${item.val().receiverid}`)
+          )
             .then((url) => {
               friendArr.push({
                 ...item.val(),

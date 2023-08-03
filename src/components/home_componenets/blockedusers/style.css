@@ -111,3 +111,11 @@
   background-color: #ff2424 !important;
   color: #fff;
 }
+.blocklist-images {
+  overflow: hidden;
+}
+.blocklist-images img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
