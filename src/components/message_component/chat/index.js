@@ -424,6 +424,11 @@ const Chat = () => {
                     {item.myuserid === user.uid ? (
                       item.message ? (
                         <div className="right_msg">
+                          <Tooltip title={item.myusername}>
+                            <div className="chatprofile_right">
+                              <img src={user.photoURL} alt="" />
+                            </div>
+                          </Tooltip>
                           <div className="right_text">
                             <p>{item.message}</p>
                           </div>
@@ -433,6 +438,11 @@ const Chat = () => {
                         </div>
                       ) : item.img ? (
                         <div className="right_msg">
+                          <Tooltip title={item.myusername}>
+                            <div className="chatprofile_right">
+                              <img src={user.photoURL} alt="" />
+                            </div>
+                          </Tooltip>
                           <div className="right_img">
                             <ModalImage
                               small={item.img}
@@ -446,6 +456,11 @@ const Chat = () => {
                         </div>
                       ) : item.audio ? (
                         <div className="right_msg">
+                          <Tooltip title={item.myusername}>
+                            <div className="chatprofile_right">
+                              <img src={user.photoURL} alt="" />
+                            </div>
+                          </Tooltip>
                           <div className="right_img">
                             <audio controls src={item.audio}></audio>
                           </div>
@@ -458,6 +473,11 @@ const Chat = () => {
                       )
                     ) : item.message ? (
                       <div className="left_msg">
+                        <Tooltip title={item.myusername}>
+                          <div className="chatprofile_left">
+                            <img src={activeChatName?.picture} alt="" />
+                          </div>
+                        </Tooltip>
                         <div className="left_text">
                           <p>{item.message}</p>
                         </div>
@@ -467,6 +487,11 @@ const Chat = () => {
                       </div>
                     ) : item.img ? (
                       <div className="left_msg">
+                        <Tooltip title={item.myusername}>
+                          <div className="chatprofile_left">
+                            <img src={activeChatName?.picture} alt="" />
+                          </div>
+                        </Tooltip>
                         <div className="left_img">
                           <ModalImage
                             small={item.img}
@@ -480,6 +505,11 @@ const Chat = () => {
                       </div>
                     ) : item.audio ? (
                       <div className="left_msg">
+                        <Tooltip title={item.myusername}>
+                          <div className="chatprofile_left">
+                            <img src={activeChatName?.picture} alt="" />
+                          </div>
+                        </Tooltip>
                         <div className="left_img">
                           <audio controls src={item.audio}></audio>
                         </div>
