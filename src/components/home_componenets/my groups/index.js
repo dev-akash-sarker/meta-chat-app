@@ -86,12 +86,10 @@ const Mygroup = () => {
       groupname: item.groupname,
       userimage: item.userimage,
     }).then(() => {
-      console.log("user dekhi", item.userid);
       set(push(ref(db, "mynotify/" + item.userid)), {
+        senderid: user.uid,
+        receiverid: item.id,
         message: "your request from " + item.groupname + " has been accepted",
-        adminid: item.adminid,
-        userid: item.userid,
-        groupname: item.groupname,
       });
       remove(ref(db, "groupjoinrequest/" + item.id));
     });

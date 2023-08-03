@@ -18,7 +18,7 @@ const Sidebar = ({ avaterprofile, setAvaterprofile }) => {
   const db = getDatabase();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  console.log("murgi", realname);
+
   const handleLogout = () => {
     signOut(auth)
       .then(() => {
@@ -48,9 +48,8 @@ const Sidebar = ({ avaterprofile, setAvaterprofile }) => {
     const starCountRef = ref(db, "users/");
     onValue(starCountRef, (snapshot) => {
       const usernamearr = [];
-      console.log("abbc", snapshot);
+
       snapshot.forEach((userlist) => {
-        console.log("dekha vai", userlist.key);
         if (user.uid === userlist.key) {
           usernamearr.push(userlist.val().username);
         }
@@ -58,6 +57,8 @@ const Sidebar = ({ avaterprofile, setAvaterprofile }) => {
       setRealname(usernamearr);
     });
   }, [user.uid, db]);
+
+  console.log(avaterprofile);
 
   // useEffect(() => {
   //   const name = realname.toString("");
@@ -80,7 +81,6 @@ const Sidebar = ({ avaterprofile, setAvaterprofile }) => {
     // const result = realname.join("");
     // console.log(result);
     const result = Object.values(realname).join();
-    console.log(result);
     updateProfile(auth.currentUser, {
       displayName: result,
       //JSON.stringify(realname.join(""))

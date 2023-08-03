@@ -34,7 +34,9 @@ const Groups = () => {
       let usersArr = [];
       snapshot.forEach((users) => {
         if (user.uid !== users.senderid) {
-          getDownloadURL(storageRef(storage, users.val().adminid))
+          getDownloadURL(
+            storageRef(storage, `profile_Image/${users.val().adminid}`)
+          )
             .then((url) => {
               console.log("good man", users.val().adminid);
               usersArr.push({
@@ -60,32 +62,15 @@ const Groups = () => {
   }, [db, user.uid]);
 
   const handleActive = (item) => {
-    console.log("itemssss", item);
-    if (item.receiverid === user.uid) {
-      dispatch(
-        Activeuser({
-          status: "multiple",
-          id: item.adminid,
-          name: item.groupname,
-          picture: item.profilePicture,
-          groupid: item.id,
-        })
-      );
-
-      // localStorage.setItem("Activeuser", JSON.stringify(Activeuser));
-    } else {
-      console.log("hhh", item);
-      dispatch(
-        Activeuser({
-          status: "multiple",
-          id: item.adminid,
-          name: item.groupname,
-          picture: item.profilePicture,
-          groupid: item.id,
-        })
-      );
-      // localStorage.setItem("Activeuser", JSON.stringify(Activeuser));
-    }
+    dispatch(
+      Activeuser({
+        status: "group",
+        id: item.id,
+        name: item.groupname,
+        adminid: item.adminid,
+        picture: item.profilePicture,
+      })
+    );
   };
   console.log("aaaaaaaaaaaaaaa", groupmessage);
   return (

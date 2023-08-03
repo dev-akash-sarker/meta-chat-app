@@ -60,7 +60,9 @@ const FriendRequest = () => {
       let usersArr = [];
       snapshot.forEach((users) => {
         if (user.uid !== users.senderid) {
-          getDownloadURL(storageRef(storage, users.val().senderid))
+          getDownloadURL(
+            storageRef(storage, `profile_Image/${users.val().senderid}`)
+          )
             .then((url) => {
               console.log("good man", users.val().senderid);
               usersArr.push({

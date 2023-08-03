@@ -13,7 +13,10 @@ const store = configureStore({
     active: activeSlice,
     search: searchSlice,
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
 });
 
 export default store;

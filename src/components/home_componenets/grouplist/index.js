@@ -60,7 +60,9 @@ const Grouplist = () => {
       let usersArr = [];
       snapshot.forEach((users) => {
         if (user.uid !== users.adminid) {
-          getDownloadURL(storageRef(storage, users.val().adminid))
+          getDownloadURL(
+            storageRef(storage, `profile_Image/${users.val().adminid}`)
+          )
             .then((url) => {
               usersArr.push({
                 ...users.val(),

@@ -15,15 +15,20 @@ const Notify = () => {
     onValue(starCountRef, (snapshot) => {
       const nottifyArr = [];
       snapshot.forEach((item) => {
-        console.log(item);
-        if (item.val().userid === user.uid) {
+        console.log(item.val().receiverid);
+        if (item.val().receiverid === user.uid) {
           nottifyArr.push(item.val().message);
-
-          //console.log("hoise mamma", nottifyArr);
-        } else if (item.val().senderid === user.uid) {
-          nottifyArr.push(item.val().message);
+        } else {
+          console.log("hoynai");
         }
 
+        // console.log(item.senderid);
+        // if (item.val().userid === user.uid) {
+        //   nottifyArr.push(item.val().message);
+        //   //console.log("hoise mamma", nottifyArr);
+        // } else if (item.val().reciverid === user.uid) {
+        //   nottifyArr.push(item.val().message);
+        // }
         // console.log("hello my loves", item.val());
       });
       setMynot(nottifyArr);
