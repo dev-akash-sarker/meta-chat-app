@@ -44,7 +44,7 @@ const Userlist = () => {
       let usersArr = [];
       snapshot.forEach((users) => {
         if (user.uid !== users.key) {
-          getDownloadURL(storageRef(storage, users.key))
+          getDownloadURL(storageRef(storage, `profile_Image/${users.key}`))
             .then((url) => {
               usersArr.push({
                 ...users.val(),
@@ -53,8 +53,8 @@ const Userlist = () => {
               });
             })
             .catch((error) => {
+              console.log(error);
               usersArr.push({
-                ...users.Val(),
                 id: users.key,
                 profilePicture:
                   "https://firebasestorage.googleapis.com/v0/b/meta-9c6a3.appspot.com/o/profile.jpg?alt=media&token=6f967d96-86ba-4d57-bc88-9ff983a196e1",
@@ -68,8 +68,6 @@ const Userlist = () => {
       });
     });
   }, [db, user.uid]);
-
-  console.log("jack sparrow", userme);
 
   useEffect(() => {
     const starCountRef = ref(db, "users/");
@@ -107,6 +105,12 @@ const Userlist = () => {
       senderid: user.uid,
       receivername: item.username,
       receiverid: item.id,
+    }).then(() => {
+      set(push(ref(db, "mynotify/" + item.id)), {
+        senderid: user.uid,
+        receiverid: item.id,
+        message: user.displayName + " has send request to " + item.username,
+      });
     });
   };
 
@@ -117,11 +121,15 @@ const Userlist = () => {
     canclereq.map((item) => {
       if (data.id === item.receiverid) {
         remove(ref(db, "friendrequest/" + item.maindId));
+        remove(ref(db, "mynotify/" + user.uid));
+        console.log("dekhi ami dekhi", item.mainId);
       } else {
         console.log("hoy nai");
       }
       return "";
     });
+
+    // remove(ref(db, "mynotify/" + user.uid));
   };
 
   // as friends
@@ -293,6 +301,7 @@ const Userlist = () => {
             ))
           : userme.map((item, i) => (
               <div key={i} className="userlist-item-wrapper">
+                {console.log("hello world", item)}
                 <div className="userlist-images">
                   <img src={item.profilePicture} alt="" />
                 </div>

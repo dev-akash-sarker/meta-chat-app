@@ -17,7 +17,8 @@ const UploadProfilePicture = ({ setOpen }) => {
   const user = useSelector((user) => user.login.loggedIn);
   const auth = getAuth();
   const storage = getStorage();
-  const storageRef = ref(storage, user.uid);
+  // const storageRef = ref(storage, user.uid);
+  const imagesRef = ref(storage, `profile_Image/${user.uid}`);
   const [image, setImage] = useState();
   const [cropData, setCropData] = useState("#");
   const [cropper, setCropper] = useState();
@@ -40,11 +41,14 @@ const UploadProfilePicture = ({ setOpen }) => {
   };
 
   const getCropData = () => {
+    // const imageRef = ref(storage, `${}`)
+
     if (typeof cropper !== "undefined") {
       setCropData(cropper.getCroppedCanvas().toDataURL());
       const message4 = cropper.getCroppedCanvas().toDataURL();
-      uploadString(storageRef, message4, "data_url").then((snapshot) => {
-        getDownloadURL(storageRef).then((downloadURL) => {
+      uploadString(imagesRef, message4, "data_url").then((snapshot) => {
+        getDownloadURL(imagesRef).then((downloadURL) => {
+          console.log(downloadURL);
           updateProfile(auth.currentUser, {
             photoURL: downloadURL,
           }).then(() => {
