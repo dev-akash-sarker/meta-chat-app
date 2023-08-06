@@ -4,7 +4,14 @@ import { RiAddLine } from "react-icons/ri";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import { TextField } from "@mui/material";
-import { getDatabase, ref, set, onValue, push } from "firebase/database";
+import {
+  getDatabase,
+  ref,
+  set,
+  onValue,
+  push,
+  remove,
+} from "firebase/database";
 import {
   getStorage,
   ref as storageRef,
@@ -18,6 +25,9 @@ const Grouplist = () => {
   const [tagname, setTagname] = useState("");
   const [grouplist, setGrouplist] = useState([]);
   const [filterGroup, setFilterGroup] = useState([]);
+  const [joinedGroup, setJoinedGroup] = useState();
+  const [joinreq, setJoinreq] = useState();
+  const [requestcancle, setRequestCancle] = useState();
   const user = useSelector((state) => state.login.loggedIn);
   const searchData = useSelector((state) => state.search.searchIn);
   const db = getDatabase();
@@ -53,6 +63,17 @@ const Grouplist = () => {
   }, [db]);
 
   useEffect(() => {
+    const starCountRef = ref(db, "groupmembers/");
+    onValue(starCountRef, (snapshot) => {
+      let joingrouparr = [];
+      snapshot.forEach((item) => {
+        joingrouparr.push(item.val().userid + item.val().adminid);
+      });
+      setJoinedGroup(joingrouparr);
+    });
+  }, [db]);
+
+  useEffect(() => {
     // storeage database
     const storage = getStorage();
     const fetchUsers = ref(db, "grouplist");
@@ -60,7 +81,9 @@ const Grouplist = () => {
       let usersArr = [];
       snapshot.forEach((users) => {
         if (user.uid !== users.adminid) {
-          getDownloadURL(storageRef(storage, users.val().adminid))
+          getDownloadURL(
+            storageRef(storage, `profile_Image/${users.val().adminid}`)
+          )
             .then((url) => {
               usersArr.push({
                 ...users.val(),
@@ -96,8 +119,33 @@ const Grouplist = () => {
       userid: user.uid,
       username: user.displayName,
       userimage: user.photoURL,
+    }).then(() => {
+      set(push(ref(db, "mynotify/" + item.adminid)), {
+        message: user.displayName + " has request to join to " + item.groupname,
+        groupname: item.groupname,
+        adminname: item.adminname,
+        adminid: item.adminid,
+        receiverid: item.adminid,
+        senderid: user.uid,
+      });
     });
   };
+
+  useEffect(() => {
+    const starCountRef = ref(db, "groupjoinrequest/");
+    onValue(starCountRef, (snapshot) => {
+      let reqArr = [];
+      let cancleArr = [];
+
+      snapshot.forEach((item) => {
+        cancleArr.push(item.key);
+        reqArr.push(item.val().adminid + item.val().userid);
+        // canclekey.push({ ...item.val(), maindId: item.key });
+      });
+      setJoinreq(reqArr);
+      setRequestCancle(cancleArr);
+    });
+  }, [db]);
 
   useEffect(() => {
     let arr = [];
@@ -113,6 +161,10 @@ const Grouplist = () => {
     });
     setFilterGroup(arr);
   }, [grouplist, searchData]);
+
+  const handleCanclegrp = (item) => {
+    remove(ref(db, "groupjoinrequest/" + requestcancle));
+  };
 
   return (
     <div className="grouplist" id="style-2">
@@ -174,9 +226,26 @@ const Grouplist = () => {
                     <h6>{item.tagname}</h6>
                   </div>
                   <div className="group-list-btn">
-                    <button type="button" onClick={() => handleJoingrp(item)}>
-                      Join
-                    </button>
+                    {joinedGroup.includes(item.adminid + user.uid) ||
+                    joinedGroup.includes(user.uid + item.adminid) ? (
+                      <button type="button" onClick={() => handleJoingrp(item)}>
+                        Joined
+                      </button>
+                    ) : joinreq.includes(item.adminid + user.uid) ||
+                      joinreq.includes(user.uid + item.adminid) ? (
+                      <div>
+                        <button
+                          type="button"
+                          onClick={() => handleCanclegrp(item)}
+                        >
+                          Requested
+                        </button>
+                      </div>
+                    ) : (
+                      <button type="button" onClick={() => handleJoingrp(item)}>
+                        Join
+                      </button>
+                    )}
                   </div>
                 </div>
               )}
@@ -194,9 +263,26 @@ const Grouplist = () => {
                     <h6>{item.tagname}</h6>
                   </div>
                   <div className="group-list-btn">
-                    <button type="button" onClick={() => handleJoingrp(item)}>
-                      Join
-                    </button>
+                    {joinedGroup.includes(item.adminid + user.uid) ||
+                    joinedGroup.includes(user.uid + item.adminid) ? (
+                      <button type="button" onClick={() => handleJoingrp(item)}>
+                        Joined
+                      </button>
+                    ) : joinreq.includes(item.adminid + user.uid) ||
+                      joinreq.includes(user.uid + item.adminid) ? (
+                      <div>
+                        <button
+                          type="button"
+                          onClick={() => handleJoingrp(item)}
+                        >
+                          Requested
+                        </button>
+                      </div>
+                    ) : (
+                      <button type="button" onClick={() => handleJoingrp(item)}>
+                        Join
+                      </button>
+                    )}
                   </div>
                 </div>
               )}
