@@ -107,16 +107,26 @@ const Registration = () => {
               <h3>Get started with easily register</h3>
               <p>Free register and you can enjoy it</p>
             </div>
-            <form onSubmit={formik.handleSubmit} action="">
+            <form onSubmit={formik.handleSubmit} action="" className="inputs">
               <TextField
                 className="form-style"
-                label="Fullname"
+                placeholder="fullname"
                 variant="outlined"
                 margin="dense"
                 type="text"
                 name="fullname"
                 onChange={formik.handleChange}
                 value={formik.values.fullname}
+                sx={{
+                  "& .MuiOutlinedInput-root.Mui-focused": {
+                    "& > fieldset": {
+                      borderColor: "var(--border-color)",
+                    },
+                  },
+                  "& .MuiInputLabel-root.Mui-focused": {
+                    color: "var(--black)",
+                  },
+                }}
               />
               {formik.errors.fullname ? (
                 <Alert className="errorsRe" severity="error">
@@ -127,13 +137,23 @@ const Registration = () => {
               )}
               <TextField
                 className="form-style"
-                label="Email"
                 variant="outlined"
                 margin="dense"
+                placeholder="email"
                 type="email"
                 name="email"
                 onChange={formik.handleChange}
                 value={formik.values.email}
+                sx={{
+                  "& .MuiOutlinedInput-root.Mui-focused": {
+                    "& > fieldset": {
+                      borderColor: "var(--border-color)",
+                    },
+                  },
+                  "& .MuiInputLabel-root.Mui-focused": {
+                    color: "var(--black)",
+                  },
+                }}
               />
               {formik.errors.email && formik.touched.email ? (
                 <Alert className="errorsRe" severity="error">
@@ -145,13 +165,23 @@ const Registration = () => {
               <div className="eyes-wrapper">
                 <TextField
                   className="form-style"
-                  label="Password"
+                  placeholder="password"
                   variant="outlined"
                   margin="dense"
                   type={showpass}
                   name="password"
                   onChange={formik.handleChange}
                   value={formik.values.password}
+                  sx={{
+                    "& .MuiOutlinedInput-root.Mui-focused": {
+                      "& > fieldset": {
+                        borderColor: "var(--border-color)",
+                      },
+                    },
+                    "& .MuiInputLabel-root.Mui-focused": {
+                      color: "var(--black)",
+                    },
+                  }}
                 />
                 {formik.errors.password && formik.touched.password ? (
                   <Alert className="errorsRe" severity="error">
@@ -171,13 +201,23 @@ const Registration = () => {
               <div className="eyes-wrapper">
                 <TextField
                   className="form-style"
-                  label="Confirm password"
+                  placeholder="Confirm password"
                   variant="outlined"
                   margin="dense"
                   type={showpasse}
                   name="confirmpassword"
                   onChange={formik.handleChange}
                   value={formik.values.confirmpassword}
+                  sx={{
+                    "& .MuiOutlinedInput-root.Mui-focused": {
+                      "& > fieldset": {
+                        borderColor: "var(--border-color)",
+                      },
+                    },
+                    "& .MuiInputLabel-root.Mui-focused": {
+                      color: "var(--border-color)",
+                    },
+                  }}
                 />
                 {formik.errors.confirmpassword &&
                 formik.touched.confirmpassword ? (

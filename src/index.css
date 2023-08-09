@@ -1,5 +1,6 @@
 :root {
   --primary-color: #5f35f5;
+  --unique-color: #fff;
   --primary-font: "Poppins", sans-serif;
   --secondary-color: #03014c;
   --secondary-font: "Nunito", sans-serif;
@@ -12,6 +13,25 @@
   --error: #f55050;
   --green: #00ff75;
   --border-color: rgba(3, 1, 76, 0.2);
+  --body-color: #f9f9f9;
+  --body-color-two: #ddd;
+  --auth-color: #1976d2;
+  --search: #fff;
+}
+
+.dark {
+  --primary-color: #001c30;
+  --unique-color: #001c30;
+  --body-color: #03001c;
+  --title-color: #fff;
+  --black: #fff;
+  --auth-color: #fff;
+  --border-color: #fff;
+  --secondary-color: #fff;
+  --secondary-white: #000000;
+  --white: #000;
+  background-color: #03001c !important;
+  --search: #5c3121;
 }
 
 * {
@@ -35,11 +55,20 @@ a {
   font-family: "Open sans", sans-serif !important;
   font-weight: 700;
   font-size: 13.34px;
-  color: "#03014C" !important;
+  color: var(--secondary-color) !important;
 }
 
-body {
-  background-color: #f9f9f9;
+.signin-color {
+  color: #fff;
+}
+
+body:focus .dark {
+  background-color: var(--body-color);
+  box-sizing: border-box;
+}
+
+.darkmodesetting {
+  background-color: #03001c;
 }
 
 .empty {
@@ -70,3 +99,105 @@ body {
   color: "#EA6C00" !important;
   text-decoration: none !important;
 } */
+
+.dark .grouplist,
+.dark .friends,
+.dark .userlist,
+.dark .mygroups,
+.dark .blocklist,
+.dark .chatting_box {
+  background-color: var(--unique-color) !important;
+  color: var(--black) !important;
+}
+
+.dark .grouplist_header h4,
+.dark .friends_header h4,
+.dark .userlist_header h4,
+.dark .mygroups_header h4,
+.dark .blocklist_header h4,
+.dark .group_message_header h4 {
+  color: var(--black) !important;
+}
+.group-name h5,
+.friends-name h5,
+.userlist-name h5,
+.mygroups_header h5,
+.blocklist-name h5 {
+  color: var(--black) !important;
+}
+
+.blocklist p.empty {
+  background-color: var(--white) !important;
+  color: var(--black) !important;
+  border: 1px solid var(--black);
+}
+
+.search_fills,
+.search_wrapper {
+  background-color: var(--search) !important;
+}
+
+.search_fills input {
+  margin-left: 0 !important;
+  background-color: var(--search) !important;
+}
+
+.dark .group_message {
+  background-color: var(--primary-color) !important;
+}
+
+.dark .left_text {
+  background-color: var(--secondary-white) !important;
+  color: var(--black);
+}
+
+.dark .right_text {
+  background-color: #2864e6 !important;
+}
+.right_text p {
+  color: var(--black) !important;
+}
+
+.dark .right_msg .right_text:after {
+  position: absolute;
+  content: "";
+  bottom: 0;
+  right: -9px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 10px 20px 10px;
+  border-color: transparent transparent #2864e6 transparent;
+}
+
+.dark .message-inputs input {
+  color: var(--black);
+}
+
+.notify-icons svg {
+  fill: var(--black);
+}
+
+.notify-message {
+  color: var(--black);
+}
+
+.profile-stting,
+.profile-text {
+  color: var(--black) !important;
+}
+
+.profile-setting-inner {
+  color: var(--black) !important;
+}
+.profile-setting-inner svg {
+  fill: var(--black) !important;
+}
+
+.friends_header button {
+  background-color: var(--unique-color) !important;
+}
+
+.setting-bg {
+  background-color: var(--unique-color) !important;
+}

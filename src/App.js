@@ -14,8 +14,10 @@ import Signin from "./pages/login";
 import Registration from "./pages/registration";
 import Loggedinuser from "./Privateroute/Loggedin";
 import Notloggedinuser from "./Privateroute/Notloggedin";
+import { useSelector } from "react-redux";
 
 function App() {
+  const darktheme = useSelector((state) => state.themeWear.themeIn);
   const route = createBrowserRouter(
     createRoutesFromElements(
       <Route>
@@ -37,7 +39,9 @@ function App() {
   );
   return (
     <>
-      <RouterProvider router={route}></RouterProvider>
+      <div className={darktheme ? "dark" : ""}>
+        <RouterProvider router={route}></RouterProvider>
+      </div>
     </>
   );
 }

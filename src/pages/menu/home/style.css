@@ -2,9 +2,13 @@
   box-sizing: border-box !important;
   justify-content: space-between !important;
   margin-top: 20px;
-  background-color: #f9f9f9;
+  background-color: var(--body-color);
 }
 
 .home_items {
   padding: 0 15px !important;
+}
+
+.search_fills input {
+  margin-left: 0;
 }

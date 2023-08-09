@@ -11,13 +11,13 @@
   font-family: "Nunito", sans-serif;
   font-weight: 700;
   font-size: 34.4px;
-  color: #11175d;
+  color: var(--title-color);
 }
 .form-header p {
   font-family: "Nunito", sans-serif;
   font-weight: 500;
   font-size: 20.64px;
-  color: #000;
+  color: var(--title-color);
   opacity: 0.5;
   margin-bottom: 20px;
 }
@@ -27,7 +27,7 @@
 }
 
 .submitBtn {
-  background-color: #5f35f5 !important;
+  background-color: var(--primary-color) !important;
   width: 70%;
   padding: 10px 0 !important;
   margin-top: 20px !important;
@@ -60,4 +60,20 @@
   -ms-transform: translateX(-50%);
   -o-transform: translateX(-50%);
   cursor: pointer;
+}
+
+.thirdParty-auth button {
+  color: var(--auth-color);
+  border: 1px solid var(--auth-color);
+}
+
+.inputs input {
+  color: var(--black);
+  border: 1px solid var(--border-color) !important;
+  outline: 0 !important;
+  border-radius: 10px;
+}
+
+.inputs input:hover {
+  border: 1px solid var(--border-color) !important;
 }

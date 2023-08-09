@@ -22,3 +22,13 @@ export const forgetValid = Yup.object({
     .email("your email is not valid")
     .required("Please enter your email"),
 });
+
+export const changePass = Yup.object({
+  password: Yup.string().min(6).max(10),
+});
+export const changeName = Yup.object({
+  fullname: Yup.string()
+    .min(3, "minimum 3 charecter")
+    .max(18, "maximum 18 charecter")
+    .required("Please enter your full name"),
+});

@@ -4,3 +4,7 @@
   margin-bottom: 10px;
   font-weight: 600;
 }
+
+.accounts p a {
+  color: var(--black);
+}

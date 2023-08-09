@@ -137,16 +137,27 @@ const Signin = () => {
                 </Button>
               </div>
             </div>
-            <form onSubmit={formik.handleSubmit} action="">
+            <form onSubmit={formik.handleSubmit} action="" className="inputs">
               <TextField
                 className="form-style"
-                label="Email"
+                // label="Email"
+                placeholder="email"
                 variant="outlined"
                 margin="dense"
                 type="email"
                 name="email"
                 onChange={formik.handleChange}
                 value={formik.values.email}
+                sx={{
+                  "& .MuiOutlinedInput-root.Mui-focused": {
+                    "& > fieldset": {
+                      borderColor: "var(--border-color)",
+                    },
+                  },
+                  "& .MuiInputLabel-root.Mui-focused": {
+                    color: "var(--border-color)",
+                  },
+                }}
               />
               {formik.errors.email && formik.touched.email ? (
                 <Alert className="errorsRe" severity="error">
@@ -157,13 +168,24 @@ const Signin = () => {
               )}
               <TextField
                 className="form-style"
-                label="Password"
+                // label="Password"
+                placeholder="password"
                 variant="outlined"
                 margin="dense"
                 type="password"
                 name="password"
                 onChange={formik.handleChange}
                 value={formik.values.password}
+                sx={{
+                  "& .MuiOutlinedInput-root.Mui-focused": {
+                    "& > fieldset": {
+                      borderColor: "var(--border-color)",
+                    },
+                  },
+                  "& .MuiInputLabel-root.Mui-focused": {
+                    color: "var(--border-color)",
+                  },
+                }}
               />
               {formik.errors.password && formik.touched.password ? (
                 <Alert className="errorsRe" severity="error">

@@ -226,13 +226,13 @@ const Grouplist = () => {
                     <h6>{item.tagname}</h6>
                   </div>
                   <div className="group-list-btn">
-                    {joinedGroup.includes(item.adminid + user.uid) ||
-                    joinedGroup.includes(user.uid + item.adminid) ? (
+                    {joinedGroup?.includes(item.adminid + user.uid) ||
+                    joinedGroup?.includes(user.uid + item.adminid) ? (
                       <button type="button" onClick={() => handleJoingrp(item)}>
                         Joined
                       </button>
-                    ) : joinreq.includes(item.adminid + user.uid) ||
-                      joinreq.includes(user.uid + item.adminid) ? (
+                    ) : joinreq?.includes(item.adminid + user.uid) ||
+                      joinreq?.includes(user.uid + item.adminid) ? (
                       <div>
                         <button
                           type="button"
@@ -263,13 +263,13 @@ const Grouplist = () => {
                     <h6>{item.tagname}</h6>
                   </div>
                   <div className="group-list-btn">
-                    {joinedGroup.includes(item.adminid + user.uid) ||
-                    joinedGroup.includes(user.uid + item.adminid) ? (
+                    {joinedGroup?.includes(item.adminid + user.uid) ||
+                    joinedGroup?.includes(user.uid + item.adminid) ? (
                       <button type="button" onClick={() => handleJoingrp(item)}>
                         Joined
                       </button>
-                    ) : joinreq.includes(item.adminid + user.uid) ||
-                      joinreq.includes(user.uid + item.adminid) ? (
+                    ) : joinreq?.includes(item.adminid + user.uid) ||
+                      joinreq?.includes(user.uid + item.adminid) ? (
                       <div>
                         <button
                           type="button"
