@@ -7,9 +7,20 @@ import { Box, Button, TextField } from "@mui/material";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { changePass } from "../../../validation/validation";
 import { useFormik } from "formik";
-import { getAuth, updatePassword } from "firebase/auth";
+import { getAuth, signOut, updatePassword } from "firebase/auth";
+import { getDatabase, ref, remove } from "firebase/database";
+import { useDispatch } from "react-redux";
+import { Loginusers } from "../../../features/Slice/LoginSlice";
+import { Navigate } from "react-router-dom";
 
 export default function DiologePassword({ open, onClose }) {
+  // const [defaultbutton, setDefaultbutton] = useState();
+  const auth = getAuth();
+  const db = getDatabase();
+  const dispatch = useDispatch();
+
+  const user = auth.currentUser;
+
   const initialValues = {
     password: "",
   };
@@ -17,24 +28,40 @@ export default function DiologePassword({ open, onClose }) {
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: changePass,
-    onSubmit: (e) => {
-      console.log("akash", e.password);
-      const auth = getAuth();
+    onSubmit: () => {
+      handleUpdateProfile();
+      // const auth = getAuth();
 
-      const user = auth.currentUser;
-      const newPassword = e.password;
-      updatePassword(user, newPassword)
-        .then(() => {
-          // Update successful.
-          console.log("password updated");
-        })
-        .catch((error) => {
-          // An error ocurred
-          // ...
-          console.log("update hoy nai", error);
-        });
+      // const user = auth.currentUser;
+      // const newPassword = e.password;
     },
   });
+
+  const handleUpdateProfile = async () => {
+    // await updatePassword(currentusers, formik.values.password).then((e) => {
+    //   console.log("newPassword", e);
+    // });
+    const newPassword = formik.values.password;
+    await updatePassword(user, newPassword)
+      .then(() => {
+        console.log("password change");
+        // setDefaultbutton(true);
+        signOut(auth)
+          .then(() => {
+            localStorage.removeItem("users");
+            remove(ref(db, "loginuser/" + user.uid));
+            dispatch(Loginusers(null));
+            Navigate("/");
+          })
+          .catch((error) => {
+            console.log(error.code);
+            console.log(error.message);
+          });
+      })
+      .catch((error) => {
+        console.log("hoy nai", error);
+      });
+  };
 
   return (
     <>
@@ -55,7 +82,9 @@ export default function DiologePassword({ open, onClose }) {
               variant="outlined"
               name="password"
               label="password"
+              type="password"
               sx={{ width: "400px" }}
+              onBlur={formik.handleBlur}
               onChange={formik.handleChange}
               value={formik.values.password}
             />
