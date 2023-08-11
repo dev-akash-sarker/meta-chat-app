@@ -69,6 +69,12 @@ const SettingLi = () => {
 
                   <h4>Edit Profile Name.</h4>
                 </div>
+                {/* <div className="image-editor">
+                  <Button onClick={handleOpenDialogTwo}>
+                    <BsImage />
+                  </Button>
+                  <h4>Edit Profile Photo.</h4>
+                </div> */}
               </div>
 
               <DiologeName
