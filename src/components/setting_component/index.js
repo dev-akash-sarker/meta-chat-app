@@ -6,10 +6,8 @@ import { useSelector } from "react-redux";
 import DiologeName from "./profileDiologe/DiologeName";
 import { Button } from "@mui/material";
 import { AiFillEdit } from "react-icons/ai";
-import { BsImage } from "react-icons/bs";
 import DiologeImage from "./profileDiologe/DiologeImage";
 import DiologePassword from "./accountDiologe/diologePassword";
-// import DarkMode from "../svg/DarkMode";
 import DarkModeCom from "../DarkMode";
 
 const SettingLi = () => {
@@ -23,9 +21,6 @@ const SettingLi = () => {
 
   const handleCloseDialogOne = () => {
     setOpenDialogOne(false);
-  };
-  const handleOpenDialogTwo = () => {
-    setOpenDialogTwo(true);
   };
 
   const handleCloseDialogTwo = () => {
@@ -73,12 +68,6 @@ const SettingLi = () => {
                   </Button>
 
                   <h4>Edit Profile Name.</h4>
-                </div>
-                <div className="image-editor">
-                  <Button onClick={handleOpenDialogTwo}>
-                    <BsImage />
-                  </Button>
-                  <h4>Edit Profile Photo.</h4>
                 </div>
               </div>
 
