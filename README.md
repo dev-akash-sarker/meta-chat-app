@@ -35,34 +35,34 @@
 <h3 align='center'>Home Page</h3>
 
 <div align='center'>
-<img src='https://raw.githubusercontent.com/dev-akash-sarker/car-rental/master/src/images/github/3.png'/>
+<img src='https://raw.githubusercontent.com/dev-akash-sarker/meta-chat-app/master/public/images/imagePreview/3.png'/>
 
 </div>
 <br>
 <h3 align='center'>Message Page</h3>
 
 <div align='center'>
-<img src='https://raw.githubusercontent.com/dev-akash-sarker/car-rental/master/src/images/github/4.png'/>
+<img src='https://raw.githubusercontent.com/dev-akash-sarker/meta-chat-app/master/public/images/imagePreview/4.png'/>
 
 </div>
 <br>
 <h3 align='center'>Notification Page</h3>
 
 <div align='center'>
-<img src='https://raw.githubusercontent.com/dev-akash-sarker/car-rental/master/src/images/github/6.png'/>
+<img src='https://raw.githubusercontent.com/dev-akash-sarker/meta-chat-app/master/public/images/imagePreview/6.png'/>
 
 </div>
 <br>
 <h3 align='center'>Setting Page</h3>
 
 <div align='center'>
-<img src='https://raw.githubusercontent.com/dev-akash-sarker/car-rental/master/src/images/github/7.png'/>
+<img src='https://raw.githubusercontent.com/dev-akash-sarker/meta-chat-app/master/public/images/imagePreview/7.png'/>
 
 </div>
 <br>
 <h3 align='center'>Dark Mode Home Page</h3>
 
 <div align='center'>
-<img src='https://raw.githubusercontent.com/dev-akash-sarker/car-rental/master/src/images/github/8.png'/>
+<img src='https://raw.githubusercontent.com/dev-akash-sarker/meta-chat-app/master/public/images/imagePreview/8.png'/>
 
 </div>
