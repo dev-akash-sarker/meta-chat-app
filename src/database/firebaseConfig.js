@@ -5,16 +5,15 @@ import { initializeApp } from "firebase/app";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyAIDNmHdn0vyw2t-fDYEQbYMRecbyfJzKE",
-  authDomain: "meta-9c6a3.firebaseapp.com",
-  projectId: "meta-9c6a3",
-  storageBucket: "meta-9c6a3.appspot.com",
-  messagingSenderId: "1076205851250",
-  appId: "1:1076205851250:web:cb83dd617abf23f88fa8eb",
+  apiKey: "AIzaSyBru8idtz7Zzp0W5I9r9J1AK_S5zHPj4bk",
+  authDomain: "frontend-react-portfolio-6e971.firebaseapp.com",
+  projectId: "frontend-react-portfolio-6e971",
+  storageBucket: "frontend-react-portfolio-6e971.appspot.com",
+  messagingSenderId: "916875444521",
+  appId: "1:916875444521:web:dca82a056cd26d21143738",
 };
 
 // Initialize Firebase
-// eslint-disable-next-line no-unused-vars
 const app = initializeApp(firebaseConfig);
 
 export default firebaseConfig;
